@@ -1,12 +1,15 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 public class TransactionRecord {
-    private String date;
-    private String time;
+    private LocalDate date;
+    private LocalTime time;
     private String description;
     private String vendor;
     private float amount;
 
 
-    public TransactionRecord(String date, String time, String description, String vendor, float amount) {
+    public TransactionRecord(LocalDate date, LocalTime time, String description, String vendor, float amount) {
         this.date = date;
         this.time = time;
         this.description = description;
@@ -14,19 +17,19 @@ public class TransactionRecord {
         this.amount = amount;
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public String getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
-    public void setTime(String time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 
