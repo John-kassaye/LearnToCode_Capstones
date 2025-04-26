@@ -28,7 +28,12 @@ public class CLI_Application {
                     addDeposit();
                     depositDisplay();
                     break;
-                case "x":
+                case "p":
+                    addPayment();
+                    paymentDisplay();
+                    scanner.nextLine();
+                    break;
+                    case "x":
                     System.out.println("""
                             Thank you for using the CLI App!!
                             """);
@@ -67,17 +72,59 @@ public class CLI_Application {
         LocalDate date2 = LocalDate.parse(date);
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
         LocalTime time2 = LocalTime.parse(time, dtf);
-        writingFile(date2, time2, description, vendor, amount);
+        writingDepositFile(date2, time2, description, vendor, amount);
 
     }
-
-    public static void writingFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
+    public static void writingDepositFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
         File file = new File("transactions.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "\n");
         } catch (IOException e) {
             System.out.println("File not found");
+        }
+    }
+
+    public static void addPayment() {
+
+        System.out.println("""
+                Please enter the date in the following format (yyyy-MM-dd)""");
+        String date = scanner.nextLine();
+        System.out.println("Please enter the time");
+        String time = scanner.nextLine();
+        System.out.println("Please enter the description");
+        String description = scanner.nextLine();
+        System.out.println("Please enter the vendor");
+        String vendor = scanner.nextLine();
+        System.out.println("Please enter the amount");
+        float amount = scanner.nextFloat();
+
+        LocalDate date2 = LocalDate.parse(date);
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
+        LocalTime time2 = LocalTime.parse(time, dtf);
+        writingPaymentFile(date2, time2, description, vendor, amount);
+
+    }
+    public static void writingPaymentFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
+
+        File file = new File("transactions.csv");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write(date + "|" + time + "|" + description + "|" + vendor + "|" + -amount + "\n");
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
+    }
+
+    public static void paymentDisplay(){
+        System.out.println("""
+                            H) Home
+                            x) Exit""");
+        String choice = scanner.nextLine();
+        if (choice.trim().equalsIgnoreCase("x")){
+            System.out.println("""
+                            Thank you for using the CLI App!!
+                            """);
+            System.exit(0);
         }
     }
 }
