@@ -2,6 +2,7 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class CLI_Application {
@@ -57,23 +58,37 @@ public class CLI_Application {
 
     public static void addDeposit() {
 
-        System.out.println("""
-                Please enter the date in the following format (yyyy-MM-dd)""");
-        String date = scanner.nextLine();
-        System.out.println("Please enter the time");
-        String time = scanner.nextLine();
-        System.out.println("Please enter the description");
-        String description = scanner.nextLine();
-        System.out.println("Please enter the vendor");
-        String vendor = scanner.nextLine();
-        System.out.println("Please enter the amount");
-        float amount = scanner.nextFloat();
+        boolean input = false;
+        while (!input) {
+            try {
+                System.out.println("""
+                        Please enter the date in the following format (yyyy-MM-dd)""");
+                String date = scanner.nextLine();
+                System.out.println("Please enter the time");
+                String time = scanner.nextLine();
+                System.out.println("Please enter the description");
+                String description = scanner.nextLine();
+                System.out.println("Please enter the vendor");
+                String vendor = scanner.nextLine();
+                System.out.println("Please enter the amount");
+                float amount = scanner.nextFloat();
+                scanner.nextLine();
 
-        LocalDate date2 = LocalDate.parse(date);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
-        LocalTime time2 = LocalTime.parse(time, dtf);
-        writingDepositFile(date2, time2, description, vendor, amount);
-
+                LocalDate date2 = LocalDate.parse(date);
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
+                LocalTime time2 = LocalTime.parse(time, dtf);
+                writingDepositFile(date2, time2, description, vendor, amount);
+                input = true;
+                System.out.println("Your deposit is successfully recorded");
+            } catch (DateTimeParseException e) {
+                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+            } catch (java.util.InputMismatchException e) {
+                System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+                scanner.nextLine(); // Clear the invalid input from the scanner
+            } catch (Exception e) {
+                System.out.println("An unexpected error occurred: " + e.getMessage());
+            }
+        }
     }
     public static void writingDepositFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
@@ -86,24 +101,37 @@ public class CLI_Application {
     }
 
     public static void addPayment() {
+        boolean input = false;
+        while (!input){
+        try {
+            System.out.println("""
+                    Please enter the date in the following format (yyyy-MM-dd)""");
+            String date = scanner.nextLine();
+            System.out.println("Please enter the time");
+            String time = scanner.nextLine();
+            System.out.println("Please enter the description");
+            String description = scanner.nextLine();
+            System.out.println("Please enter the vendor");
+            String vendor = scanner.nextLine();
+            System.out.println("Please enter the amount");
+            float amount = scanner.nextFloat();
+            scanner.nextLine();
 
-        System.out.println("""
-                Please enter the date in the following format (yyyy-MM-dd)""");
-        String date = scanner.nextLine();
-        System.out.println("Please enter the time");
-        String time = scanner.nextLine();
-        System.out.println("Please enter the description");
-        String description = scanner.nextLine();
-        System.out.println("Please enter the vendor");
-        String vendor = scanner.nextLine();
-        System.out.println("Please enter the amount");
-        float amount = scanner.nextFloat();
-
-        LocalDate date2 = LocalDate.parse(date);
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
-        LocalTime time2 = LocalTime.parse(time, dtf);
-        writingPaymentFile(date2, time2, description, vendor, amount);
-
+            LocalDate date2 = LocalDate.parse(date);
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
+            LocalTime time2 = LocalTime.parse(time, dtf);
+            writingPaymentFile(date2, time2, description, vendor, amount);
+            input = true;
+            System.out.println("Your payment is successfully recorded!!");
+        } catch (DateTimeParseException e) {
+            System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+        } catch (java.util.InputMismatchException e) {
+            System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+            scanner.nextLine(); // Clear the invalid input from the scanner
+        } catch (Exception e) {
+            System.out.println("An unexpected error occurred: " + e.getMessage());
+        }
+        }
     }
     public static void writingPaymentFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
