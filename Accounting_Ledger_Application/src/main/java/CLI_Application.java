@@ -3,6 +3,9 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class CLI_Application {
@@ -10,6 +13,7 @@ public class CLI_Application {
     public static void main(String[] args) {
 
         homeScreen();
+
     }
 
     public static void homeScreen() {
@@ -27,26 +31,25 @@ public class CLI_Application {
             switch (choice.toLowerCase()) {
                 case "d":
                     addDeposit();
-                    depositDisplay();
+                    goodByDisplay();
                     break;
                 case "p":
                     addPayment();
-                    paymentDisplay();
-                    scanner.nextLine();
+                    goodByDisplay();
                     break;
-                    case "x":
-                    System.out.println("""
-                            Thank you for using the CLI App!!
-                            """);
+                case "l":
+                    ledger();
+                    goodByDisplay();
                     break;
+                default:
+                    System.out.println("Invalid");
             }
         } while (!choice.trim().equalsIgnoreCase("x"));
     }
 
-    public static void depositDisplay(){
+    public static void goodByDisplay(){
         System.out.println("""
-                            H) Home
-                            x) Exit""");
+                            H) Home        x) Exit""");
         String choice = scanner.nextLine();
         if (choice.trim().equalsIgnoreCase("x")){
             System.out.println("""
@@ -145,16 +148,85 @@ public class CLI_Application {
         }
     }
 
-    public static void paymentDisplay(){
+    public static void ledger(){
+        String choice;
         System.out.println("""
-                            H) Home
-                            x) Exit""");
-        String choice = scanner.nextLine();
-        if (choice.trim().equalsIgnoreCase("x")){
-            System.out.println("""
-                            Thank you for using the CLI App!!
-                            """);
-            System.exit(0);
+                A) All Entries
+                D) Deposits
+                P) Payments
+                R) Reports  \s""");
+        choice = scanner.nextLine();
+        switch (choice.toLowerCase()){
+            case "a":
+                allEntries();
+                break;
+            case "d":
+                onlyDeposit();
+                break;
+            case "p":
+                onlyPayment();
+                break;
+            default:
+                System.out.println("Invalid");
+        }
+    }
+
+    public static void allEntries(){
+        String line;
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
+            while ((line = bufferedReader.readLine()) != null){
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
+    }
+
+    public static List<String> lists(){
+        List<String> transaction = new ArrayList<>();
+        String line;
+        try(BufferedReader bufferedReader =new BufferedReader(new FileReader("transactions.csv"))){
+            while ((line = bufferedReader.readLine()) != null){
+                transaction.add(line);
+            }
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
+        return transaction;
+    }
+
+    public static void onlyDeposit(){
+        List<String> list = lists();
+        for (int i = 0; i < list.size(); i++){
+            String string = list.get(i);
+            String[] deposit = string.split("\\|");
+            LocalDate date = LocalDate.parse(deposit[0]);
+            LocalTime time = LocalTime.parse(deposit[1]);
+            String description = deposit[2];
+            String vendor = deposit[3];
+            float amount = Float.parseFloat(deposit[4]);
+
+            if (amount > 0){
+                System.out.println(Arrays.toString(deposit));
+            }
+        }
+    }
+
+    public static void onlyPayment(){
+        List<String> list = lists();
+        for (int i = 0; i < list.size(); i++){
+            String string = list.get(i);
+            String[] payment = string.split("\\|");
+            LocalDate date = LocalDate.parse(payment[0]);
+            LocalTime time = LocalTime.parse(payment[1]);
+            String description = payment[2];
+            String vendor = payment[3];
+            float amount = Float.parseFloat(payment[4]);
+
+            if (amount < 0){
+//                System.out.println(Arrays.toString(payment));
+                System.out.println();
+            }
         }
     }
 }

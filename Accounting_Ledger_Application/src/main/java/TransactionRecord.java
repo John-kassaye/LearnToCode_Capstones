@@ -56,4 +56,7 @@ public class TransactionRecord {
     public void setAmount(float amount) {
         this.amount = amount;
     }
+    public String display(){
+        return String.format("%s|%s|%s|%s|%.2f", date, time, description, vendor, amount);
+    }
 }
