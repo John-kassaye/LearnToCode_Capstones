@@ -74,7 +74,8 @@ public class CLI_Application {
                 float amount = scanner.nextFloat();
                 scanner.nextLine();
 
-                LocalDate date2 = LocalDate.parse(date);
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy-M-d");
+                LocalDate date2 = LocalDate.parse(date, dateTimeFormatter);
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
                 LocalTime time2 = LocalTime.parse(time, dtf);
                 writingDepositFile(date2, time2, description, vendor, amount);
@@ -105,7 +106,7 @@ public class CLI_Application {
         while (!input){
         try {
             System.out.println("""
-                    Please enter the date in the following format (yyyy-MM-dd)""");
+                    Please enter the date in the following format (yy-M-dd)""");
             String date = scanner.nextLine();
             System.out.println("Please enter the time");
             String time = scanner.nextLine();
@@ -117,7 +118,8 @@ public class CLI_Application {
             float amount = scanner.nextFloat();
             scanner.nextLine();
 
-            LocalDate date2 = LocalDate.parse(date);
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy-M-d");
+            LocalDate date2 = LocalDate.parse(date, dateTimeFormatter);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
             LocalTime time2 = LocalTime.parse(time, dtf);
             writingPaymentFile(date2, time2, description, vendor, amount);
