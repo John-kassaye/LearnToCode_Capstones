@@ -11,7 +11,9 @@ public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
 
-        homeScreen();
+//        homeScreen();
+        startDate();
+
     }
 
     public static void homeScreen() {
@@ -414,6 +416,7 @@ public class CLI_Application {
             System.exit(0);
         }
     }
+
     public static void search(){
         List<String> searching = lists();
         System.out.println("Please enter the vendor name");
@@ -432,6 +435,42 @@ public class CLI_Application {
        if (!choice){
            System.out.println("Sorry, we couldn't find any entries for that vendor.");}
 
+    }
+
+    public static void startDate(){
+        List<String> startDate = lists();
+        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
+        String date = scanner.nextLine();
+        LocalDate userDate = LocalDate.parse(date);
+
+        for (int i = 0; i < lists().size(); i++){
+            String date2 = lists().get(i);
+            String[] split = date2.split("\\|");
+            String startingDate = split[0];
+            LocalDate localDate = LocalDate.parse(startingDate);
+
+           if (userDate.isBefore(localDate)){
+               System.out.println(lists().get(i));
+           }
+        }
+    }
+
+    public static void endDate(){
+        List<String> endDate = lists();
+        System.out.println("End Date: The date for the search.(yyyy-MM-dd)");
+        String date = scanner.nextLine();
+        LocalDate userDate = LocalDate.parse(date);
+
+        for (int i = 0; i < lists().size(); i++){
+            String date2 = lists().get(i);
+            String[] split = date2.split("\\|");
+            String endingDate = split[0];
+            LocalDate localDate = LocalDate.parse(endingDate);
+
+            if (userDate.isAfter(localDate)){
+                System.out.println(lists().get(i));
+            }
+        }
     }
 }
 
