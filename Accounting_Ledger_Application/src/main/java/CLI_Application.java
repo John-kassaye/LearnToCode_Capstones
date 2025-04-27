@@ -24,7 +24,7 @@ public class CLI_Application {
                     P) Make Payment(Debit)
                     L) Ledger
                     X) Exit""");
-            choice = scanner.nextLine();
+            choice = scanner.nextLine().trim();
 
             switch (choice.toLowerCase()) {
                 case "d":
@@ -63,6 +63,7 @@ public class CLI_Application {
         System.out.println("""
                 Thank you for using the CLI App!!
                 """);
+        System.exit(0);
     }
 
     public static void addDeposit() {
@@ -185,7 +186,7 @@ public class CLI_Application {
 
     public static void ledger() {
         String choice;
-        System.out.println("""
+         System.out.println("""
                 A) All Entries
                 D) Deposits
                 P) Payments
@@ -209,11 +210,11 @@ public class CLI_Application {
                 reports();
                 break;
             case "h":
-//                homeScreen();
+                homeScreen();
                 break;
             default:
-                System.out.println("Invalid input");
-                ledger();
+                System.out.println("Invalid input, please try again.");
+                break;
         }
     }
 
@@ -299,6 +300,10 @@ public class CLI_Application {
                 previousYear();
                 goBackReports();
                 break;
+            case 5:
+                search();
+                goBackReports();
+                break;
             case 0:
                 ledger();
                 input = true;
@@ -310,7 +315,6 @@ public class CLI_Application {
             scanner.nextLine();
         }
     }
-
 
     public static void monthToDate(){
         List<String> monthToDate = lists();
@@ -409,6 +413,25 @@ public class CLI_Application {
                     """);
             System.exit(0);
         }
+    }
+    public static void search(){
+        List<String> searching = lists();
+        System.out.println("Please enter the vendor name");
+        String vendor = scanner.nextLine();
+        boolean choice = false;
+        for (int i = 0; i < lists().size(); i++){
+            String name = lists().get(i);
+            String[] split = name.split("\\|");
+            String part = split[3];
+
+            if (part.trim().equalsIgnoreCase(vendor)){
+                System.out.println(lists().get(i));
+                choice = true;
+            }
+        }
+       if (!choice){
+           System.out.println("Sorry, we couldn't find any entries for that vendor.");}
+
     }
 }
 
