@@ -1,6 +1,8 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.Month;
+import java.time.Year;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.*;
@@ -10,7 +12,6 @@ public class CLI_Application {
     public static void main(String[] args) {
 
         homeScreen();
-
     }
 
     public static void homeScreen() {
@@ -22,7 +23,7 @@ public class CLI_Application {
                     D) Add Deposit
                     P) Make Payment(Debit)
                     L) Ledger
-                    X) Exit   \s""");
+                    X) Exit""");
             choice = scanner.nextLine();
 
             switch (choice.toLowerCase()) {
@@ -36,7 +37,6 @@ public class CLI_Application {
                     break;
                 case "l":
                     ledger();
-                    optionDisplay();
                     break;
                 case "x":
                     goodByeDisplay();
@@ -142,7 +142,7 @@ public class CLI_Application {
                 date2 = LocalDate.parse(date, dateTimeFormatter);
                 input2 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date.");
             }
             while (!input3) try {
                 System.out.println("Please enter the time");
@@ -151,7 +151,7 @@ public class CLI_Application {
                 time2 = LocalTime.parse(time, dtf);
                 input3 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+                System.out.println("Error: Invalid date or time format. Please use HH:mm for time.");
             }
             System.out.println("Please enter the description");
             String description = scanner.nextLine();
@@ -189,20 +189,31 @@ public class CLI_Application {
                 A) All Entries
                 D) Deposits
                 P) Payments
-                R) Reports  \s""");
+                R) Reports
+                H) Home""");
         choice = scanner.nextLine();
-        switch (choice.toLowerCase()) {
+        switch (choice.trim().toLowerCase()) {
             case "a":
                 allEntries();
+                goBackLedger();
                 break;
             case "d":
                 onlyDeposit();
+                goBackLedger();
                 break;
             case "p":
                 onlyPayment();
+                goBackLedger();
+                break;
+            case "r":
+                reports();
+                break;
+            case "h":
+//                homeScreen();
                 break;
             default:
-                System.out.println("Invalid");
+                System.out.println("Invalid input");
+                ledger();
         }
     }
 
@@ -261,13 +272,145 @@ public class CLI_Application {
     }
 
     public static void reports() {
-        System.out.println("""
+        boolean input = false;
+        while (!input) try{ System.out.println("""
                 1) Month To Date
                 2) Previous Month
                 3) Year To Date
                 4) Previous Year
                 5) Search by Vendor
-                H) Home
-                """);
+                0) Back""");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+        switch (choice){
+            case 1:
+                monthToDate();
+                goBackReports();
+                break;
+            case 2:
+                previousMonth();
+                goBackReports();
+                break;
+            case 3:
+                yearToDate();
+                goBackReports();
+                break;
+            case 4:
+                previousYear();
+                goBackReports();
+                break;
+            case 0:
+                ledger();
+                input = true;
+                break;
+
+
+        }} catch (InputMismatchException e){
+            System.out.println("Please enter a number");
+            scanner.nextLine();
+        }
+    }
+
+
+    public static void monthToDate(){
+        List<String> monthToDate = lists();
+       for (int i = 0; i < lists().size(); i++){
+           String dateMonth = lists().get(i);
+           String[] split = dateMonth.split("\\|");
+           String date2 = split[0];
+           LocalDate date = LocalDate.now();
+           Month month = date.getMonth();
+           int year = date.getYear();
+           LocalDate listDate = LocalDate.parse(date2);;
+
+           if (listDate.getMonth()==month && listDate.getYear() == year){
+               System.out.println(lists().get(i));
+           }
+
+       }
+    }
+
+    public static void previousMonth(){
+        List<String> monthToDate = lists();
+        for (int i = 0; i < lists().size(); i++) {
+            String dateMonth = lists().get(i);
+            String[] split = dateMonth.split("\\|");
+            String date2 = split[0];
+            LocalDate date = LocalDate.now();
+            Month month = date.minusMonths(1).getMonth();
+            int year = date.getYear();
+            LocalDate listDate = LocalDate.parse(date2);;
+
+            if (listDate.getMonth() == month && listDate.getYear()==year) {
+                System.out.println(lists().get(i));
+            }
+
+        }
+    }
+
+    public static void yearToDate(){
+        List<String> monthToDate = lists();
+        for (int i = 0; i < lists().size(); i++){
+            String dateMonth = lists().get(i);
+            String[] split = dateMonth.split("\\|");
+            String date2 = split[0];
+            LocalDate date = LocalDate.now();
+            int year = date.getYear();
+            LocalDate listDate = LocalDate.parse(date2);
+
+            if (listDate.getYear() == year){
+                System.out.println(lists().get(i));
+            }
+
+        }
+    }
+
+    public static void previousYear(){
+        List<String> monthToDate = lists();
+        for (int i = 0; i < lists().size(); i++){
+            String dateMonth = lists().get(i);
+            String[] split = dateMonth.split("\\|");
+            String date2 = split[0];
+            LocalDate date = LocalDate.now();
+            int year = date.minusYears(1).getYear();
+            LocalDate listDate = LocalDate.parse(date2);
+
+            if (listDate.getYear() == year){
+                System.out.println(lists().get(i));
+            }
+        }
+    }
+
+    public static void goBackLedger() {
+        System.out.println("""
+                0) Back
+                X) Exit""");
+        String choice = scanner.nextLine();
+        if (choice.trim().equalsIgnoreCase("0")) {
+            ledger();
+        } else if (choice.trim().equalsIgnoreCase("x")) {
+            System.out.println("""
+                    Thank you for using the CLI App!!
+                    """);
+            System.exit(0);
+        }
+    }
+
+    public static void goBackReports(){
+        System.out.println("""
+                        0) Back
+                        X) Exit""");
+        String choice2 = scanner.nextLine();
+        if (choice2.trim().equalsIgnoreCase("0")){
+            reports();
+        } else if (choice2.trim().equalsIgnoreCase("x")){
+            System.out.println("""
+                    Thank you for using the CLI App!!
+                    """);
+            System.exit(0);
+        }
     }
 }
+
+
+
