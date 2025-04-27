@@ -31,23 +31,26 @@ public class CLI_Application {
             switch (choice.toLowerCase()) {
                 case "d":
                     addDeposit();
-                    goodByDisplay();
+                    optionDisplay();
                     break;
                 case "p":
                     addPayment();
-                    goodByDisplay();
+                    optionDisplay();
                     break;
                 case "l":
                     ledger();
-                    goodByDisplay();
+                    optionDisplay();
+                    break;
+                case "x":
+                    goodByeDisplay();
                     break;
                 default:
-                    System.out.println("Invalid");
+                    System.out.println("Invalid input");
             }
         } while (!choice.trim().equalsIgnoreCase("x"));
     }
 
-    public static void goodByDisplay(){
+    public static void optionDisplay(){
         System.out.println("""
                             H) Home        x) Exit""");
         String choice = scanner.nextLine();
@@ -57,6 +60,12 @@ public class CLI_Application {
                             """);
             System.exit(0);
         }
+    }
+
+    public static void goodByeDisplay(){
+        System.out.println("""
+                            Thank you for using the CLI App!!
+                            """);
     }
 
     public static void addDeposit() {
@@ -81,7 +90,9 @@ public class CLI_Application {
                 LocalDate date2 = LocalDate.parse(date, dateTimeFormatter);
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
                 LocalTime time2 = LocalTime.parse(time, dtf);
-                writingDepositFile(date2, time2, description, vendor, amount);
+//                writingDepositFile(date2, time2, description, vendor, amount);
+                TransactionRecord transactionRecord = new TransactionRecord(date2,time2,description,vendor,amount);
+                writingDepositFile(transactionRecord);
                 input = true;
                 System.out.println("Your deposit is successfully recorded");
             } catch (DateTimeParseException e) {
@@ -94,11 +105,13 @@ public class CLI_Application {
             }
         }
     }
-    public static void writingDepositFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
+//    public static void writingDepositFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
+    public static void writingDepositFile(TransactionRecord transactionRecord) {
         File file = new File("transactions.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(date + "|" + time + "|" + description + "|" + vendor + "|" + amount + "\n");
+            writer.write(String.valueOf(transactionRecord));
+            writer.newLine();
         } catch (IOException e) {
             System.out.println("File not found");
         }
@@ -125,7 +138,9 @@ public class CLI_Application {
             LocalDate date2 = LocalDate.parse(date, dateTimeFormatter);
             DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
             LocalTime time2 = LocalTime.parse(time, dtf);
-            writingPaymentFile(date2, time2, description, vendor, amount);
+            TransactionRecord transactionRecord = new TransactionRecord(date2,time2,description,vendor,amount);
+//            writingPaymentFile(date2, time2, description, vendor, amount);
+            writingPaymentFile(transactionRecord);
             input = true;
             System.out.println("Your payment is successfully recorded!!");
         } catch (DateTimeParseException e) {
@@ -138,11 +153,13 @@ public class CLI_Application {
         }
         }
     }
-    public static void writingPaymentFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
+//    public static void writingPaymentFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
+    public static void writingPaymentFile(TransactionRecord transactionRecord) {
         File file = new File("transactions.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(date + "|" + time + "|" + description + "|" + vendor + "|" + -amount + "\n");
+            writer.write(String.valueOf(transactionRecord));
+            writer.newLine();
         } catch (IOException e) {
             System.out.println("File not found");
         }
@@ -228,5 +245,16 @@ public class CLI_Application {
                 System.out.println();
             }
         }
+    }
+
+    public static void reports(){
+        System.out.println("""
+                1) Month To Date
+                2) Previous Month
+                3) Year To Date
+                4) Previous Year
+                5) Search by Vendor
+                H) Home
+                """);
     }
 }

@@ -36,3 +36,8 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+src/main/java/gvgv.java
+src/main/java/test.java
+transactionOf.csv
+
