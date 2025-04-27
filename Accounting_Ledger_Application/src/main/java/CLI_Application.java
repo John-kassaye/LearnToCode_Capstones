@@ -3,10 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
@@ -50,62 +47,72 @@ public class CLI_Application {
         } while (!choice.trim().equalsIgnoreCase("x"));
     }
 
-    public static void optionDisplay(){
+    public static void optionDisplay() {
         System.out.println("""
-                            H) Home        x) Exit""");
+                H) Home        x) Exit""");
         String choice = scanner.nextLine();
-        if (choice.trim().equalsIgnoreCase("x")){
+        if (choice.trim().equalsIgnoreCase("x")) {
             System.out.println("""
-                            Thank you for using the CLI App!!
-                            """);
+                    Thank you for using the CLI App!!
+                    """);
             System.exit(0);
         }
     }
 
-    public static void goodByeDisplay(){
+    public static void goodByeDisplay() {
         System.out.println("""
-                            Thank you for using the CLI App!!
-                            """);
+                Thank you for using the CLI App!!
+                """);
     }
 
     public static void addDeposit() {
 
         boolean input = false;
+        boolean input2 = false;
+        boolean input3 = false;
+        boolean input4 = false;
         while (!input) {
-            try {
+            LocalDate date2 = null;
+            LocalTime time2 = null;
+            Float amount = null;
+            while (!input2) try {
                 System.out.println("""
                         Please enter the date in the following format (yyyy-MM-dd)""");
                 String date = scanner.nextLine();
-                System.out.println("Please enter the time");
-                String time = scanner.nextLine();
-                System.out.println("Please enter the description");
-                String description = scanner.nextLine();
-                System.out.println("Please enter the vendor");
-                String vendor = scanner.nextLine();
-                System.out.println("Please enter the amount");
-                float amount = scanner.nextFloat();
-                scanner.nextLine();
-
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy-M-d");
-                LocalDate date2 = LocalDate.parse(date, dateTimeFormatter);
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
-                LocalTime time2 = LocalTime.parse(time, dtf);
-//                writingDepositFile(date2, time2, description, vendor, amount);
-                TransactionRecord transactionRecord = new TransactionRecord(date2,time2,description,vendor,amount);
-                writingDepositFile(transactionRecord);
-                input = true;
-                System.out.println("Your deposit is successfully recorded");
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+                date2 = LocalDate.parse(date, dateTimeFormatter);
+                input2 = true;
             } catch (DateTimeParseException e) {
                 System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
-            } catch (java.util.InputMismatchException e) {
-                System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
-                scanner.nextLine(); // Clear the invalid input from the scanner
-            } catch (Exception e) {
-                System.out.println("An unexpected error occurred: " + e.getMessage());
             }
+            while (!input3) try {
+                System.out.println("Please enter the time");
+                String time = scanner.nextLine();
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
+                time2 = LocalTime.parse(time, dtf);
+                input3 = true;
+            } catch (DateTimeParseException e) {
+                System.out.println("Error: Invalid time format. Please use HH:mm for time.");
+            }
+            System.out.println("Please enter the description");
+            String description = scanner.nextLine();
+            System.out.println("Please enter the vendor");
+            String vendor = scanner.nextLine();
+            while (!input4) try {
+                System.out.println("Please enter the amount");
+                amount = scanner.nextFloat();
+                input4 = true;
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+                scanner.nextLine();
+            }
+            TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, amount);
+            writingDepositFile(transactionRecord);
+            input = true;
+            System.out.println("Your deposit is successfully recorded");
         }
+
     }
-//    public static void writingDepositFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
     public static void writingDepositFile(TransactionRecord transactionRecord) {
         File file = new File("transactions.csv");
@@ -119,41 +126,52 @@ public class CLI_Application {
 
     public static void addPayment() {
         boolean input = false;
-        while (!input){
-        try {
-            System.out.println("""
-                    Please enter the date in the following format (yy-M-dd)""");
-            String date = scanner.nextLine();
-            System.out.println("Please enter the time");
-            String time = scanner.nextLine();
+        boolean input2 = false;
+        boolean input3 = false;
+        boolean input4 = false;
+        while (!input) {
+            LocalDate date2 = null;
+            LocalTime time2 = null;
+            float amount = 0;
+
+            while (!input2) try {
+                System.out.println("""
+                        Please enter the date in the following format (yyyy-M-d)""");
+                String date = scanner.nextLine();
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
+                date2 = LocalDate.parse(date, dateTimeFormatter);
+                input2 = true;
+            } catch (DateTimeParseException e) {
+                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+            }
+            while (!input3) try {
+                System.out.println("Please enter the time");
+                String time = scanner.nextLine();
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
+                time2 = LocalTime.parse(time, dtf);
+                input3 = true;
+            } catch (DateTimeParseException e) {
+                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+            }
             System.out.println("Please enter the description");
             String description = scanner.nextLine();
             System.out.println("Please enter the vendor");
             String vendor = scanner.nextLine();
-            System.out.println("Please enter the amount");
-            float amount = scanner.nextFloat();
-            scanner.nextLine();
-
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yy-M-d");
-            LocalDate date2 = LocalDate.parse(date, dateTimeFormatter);
-            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
-            LocalTime time2 = LocalTime.parse(time, dtf);
-            TransactionRecord transactionRecord = new TransactionRecord(date2,time2,description,vendor,amount);
-//            writingPaymentFile(date2, time2, description, vendor, amount);
+            while (!input4) try {
+                System.out.println("Please enter the amount");
+                amount = scanner.nextFloat();
+                input4 = true;
+                scanner.nextLine();
+            } catch (InputMismatchException e) {
+                System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+                scanner.nextLine();
+            }
+            TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, -amount);
             writingPaymentFile(transactionRecord);
             input = true;
             System.out.println("Your payment is successfully recorded!!");
-        } catch (DateTimeParseException e) {
-            System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
-        } catch (java.util.InputMismatchException e) {
-            System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
-            scanner.nextLine(); // Clear the invalid input from the scanner
-        } catch (Exception e) {
-            System.out.println("An unexpected error occurred: " + e.getMessage());
-        }
         }
     }
-//    public static void writingPaymentFile(LocalDate date, LocalTime time, String description, String vendor, float amount) {
 
     public static void writingPaymentFile(TransactionRecord transactionRecord) {
         File file = new File("transactions.csv");
@@ -165,7 +183,7 @@ public class CLI_Application {
         }
     }
 
-    public static void ledger(){
+    public static void ledger() {
         String choice;
         System.out.println("""
                 A) All Entries
@@ -173,7 +191,7 @@ public class CLI_Application {
                 P) Payments
                 R) Reports  \s""");
         choice = scanner.nextLine();
-        switch (choice.toLowerCase()){
+        switch (choice.toLowerCase()) {
             case "a":
                 allEntries();
                 break;
@@ -188,22 +206,11 @@ public class CLI_Application {
         }
     }
 
-    public static void allEntries(){
-        String line;
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
-            while ((line = bufferedReader.readLine()) != null){
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            System.out.println("File not found");
-        }
-    }
-
-    public static List<String> lists(){
+    public static List<String> lists() {
         List<String> transaction = new ArrayList<>();
         String line;
-        try(BufferedReader bufferedReader =new BufferedReader(new FileReader("transactions.csv"))){
-            while ((line = bufferedReader.readLine()) != null){
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
+            while ((line = bufferedReader.readLine()) != null) {
                 transaction.add(line);
             }
         } catch (IOException e) {
@@ -212,9 +219,16 @@ public class CLI_Application {
         return transaction;
     }
 
-    public static void onlyDeposit(){
+    public static void allEntries() {
+        List<String> transaction = lists();
+        for (String example : transaction) {
+            System.out.println(example);
+        }
+    }
+
+    public static void onlyDeposit() {
         List<String> list = lists();
-        for (int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             String string = list.get(i);
             String[] deposit = string.split("\\|");
             LocalDate date = LocalDate.parse(deposit[0]);
@@ -223,15 +237,15 @@ public class CLI_Application {
             String vendor = deposit[3];
             float amount = Float.parseFloat(deposit[4]);
 
-            if (amount > 0){
+            if (amount > 0) {
                 System.out.println(Arrays.toString(deposit));
             }
         }
     }
 
-    public static void onlyPayment(){
+    public static void onlyPayment() {
         List<String> list = lists();
-        for (int i = 0; i < list.size(); i++){
+        for (int i = 0; i < list.size(); i++) {
             String string = list.get(i);
             String[] payment = string.split("\\|");
             LocalDate date = LocalDate.parse(payment[0]);
@@ -240,14 +254,13 @@ public class CLI_Application {
             String vendor = payment[3];
             float amount = Float.parseFloat(payment[4]);
 
-            if (amount < 0){
-//                System.out.println(Arrays.toString(payment));
-                System.out.println();
+            if (amount < 0) {
+                System.out.println(Arrays.toString(payment));
             }
         }
     }
 
-    public static void reports(){
+    public static void reports() {
         System.out.println("""
                 1) Month To Date
                 2) Previous Month
