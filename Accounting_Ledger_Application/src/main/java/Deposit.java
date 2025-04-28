@@ -74,10 +74,17 @@ public class Deposit {
     public static void onlyDeposit() {
         System.out.println("Your Deposit transactions");
         System.out.println("Date | Time | Description | Vendor | Amount");
+
+        boolean input = false;
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getAmount() > 0) {
                 System.out.println(transactionRecord);
+                input = true;
+                break;
             }
+        }
+        if (!input){
+            System.out.println("No deposits were found");
         }
     }
 

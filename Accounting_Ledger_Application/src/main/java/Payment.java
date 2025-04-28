@@ -73,10 +73,17 @@ public class Payment {
     public static void onlyPayment() {
         System.out.println("Your Payment transactions");
         System.out.println("Date | Time | Description | Vendor | Amount");
+
+        boolean input = false;
         for (TransactionRecord transactionRecord : Deposit.lists()) {
             if (transactionRecord.getAmount() < 0) {
                 System.out.println(transactionRecord);
+                input = true;
+                break;
             }
+        }
+        if (!input){
+            System.out.println("No payments were found");
         }
     }
 
