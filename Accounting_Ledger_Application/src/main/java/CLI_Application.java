@@ -11,8 +11,7 @@ public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
     public static void main(String[] args) {
 
-//        homeScreen();
-        startDate();
+        homeScreen();
 
     }
 
@@ -220,12 +219,17 @@ public class CLI_Application {
         }
     }
 
-    public static List<String> lists() {
-        List<String> transaction = new ArrayList<>();
+    public static List<TransactionRecord> lists() {
+        List<TransactionRecord> transaction = new ArrayList<>();
         String line;
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
             while ((line = bufferedReader.readLine()) != null) {
-                transaction.add(line);
+                String[] splitting = line.split("\\|");
+                LocalDate localDate = LocalDate.parse(splitting[0]);
+                LocalTime localTime = LocalTime.parse(splitting[1]);
+                float amount = Float.parseFloat(splitting[4]);
+                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
+                transaction.add(transactionRecord);
             }
         } catch (IOException e) {
             System.out.println("File not found");
@@ -234,42 +238,24 @@ public class CLI_Application {
     }
 
     public static void allEntries() {
-        List<String> transaction = lists();
-        for (String example : transaction) {
-            System.out.println(example);
+        System.out.println("Date | Time | Description | Vendor | Amount");
+        for (TransactionRecord transactionRecord : lists()) {
+            System.out.println(transactionRecord);
         }
     }
 
     public static void onlyDeposit() {
-        List<String> list = lists();
-        for (int i = 0; i < list.size(); i++) {
-            String string = list.get(i);
-            String[] deposit = string.split("\\|");
-            LocalDate date = LocalDate.parse(deposit[0]);
-            LocalTime time = LocalTime.parse(deposit[1]);
-            String description = deposit[2];
-            String vendor = deposit[3];
-            float amount = Float.parseFloat(deposit[4]);
-
-            if (amount > 0) {
-                System.out.println(Arrays.toString(deposit));
+        for (TransactionRecord transactionRecord : lists()) {
+            if (transactionRecord.getAmount() > 0) {
+                System.out.println(transactionRecord);
             }
         }
     }
 
     public static void onlyPayment() {
-        List<String> list = lists();
-        for (int i = 0; i < list.size(); i++) {
-            String string = list.get(i);
-            String[] payment = string.split("\\|");
-            LocalDate date = LocalDate.parse(payment[0]);
-            LocalTime time = LocalTime.parse(payment[1]);
-            String description = payment[2];
-            String vendor = payment[3];
-            float amount = Float.parseFloat(payment[4]);
-
-            if (amount < 0) {
-                System.out.println(Arrays.toString(payment));
+        for (TransactionRecord transactionRecord : lists()) {
+            if (transactionRecord.getAmount() < 0) {
+                System.out.println(transactionRecord);
             }
         }
     }
@@ -319,72 +305,72 @@ public class CLI_Application {
     }
 
     public static void monthToDate(){
-        List<String> monthToDate = lists();
-       for (int i = 0; i < lists().size(); i++){
-           String dateMonth = lists().get(i);
-           String[] split = dateMonth.split("\\|");
-           String date2 = split[0];
-           LocalDate date = LocalDate.now();
-           Month month = date.getMonth();
-           int year = date.getYear();
-           LocalDate listDate = LocalDate.parse(date2);;
-
-           if (listDate.getMonth()==month && listDate.getYear() == year){
-               System.out.println(lists().get(i));
-           }
-
-       }
+//        List<String> monthToDate = lists();
+//       for (int i = 0; i < lists().size(); i++){
+//           String dateMonth = lists().get(i);
+//           String[] split = dateMonth.split("\\|");
+//           String date2 = split[0];
+//           LocalDate date = LocalDate.now();
+//           Month month = date.getMonth();
+//           int year = date.getYear();
+//           LocalDate listDate = LocalDate.parse(date2);;
+//
+//           if (listDate.getMonth()==month && listDate.getYear() == year){
+//               System.out.println(lists().get(i));
+//           }
+//
+//       }
     }
 
     public static void previousMonth(){
-        List<String> monthToDate = lists();
-        for (int i = 0; i < lists().size(); i++) {
-            String dateMonth = lists().get(i);
-            String[] split = dateMonth.split("\\|");
-            String date2 = split[0];
-            LocalDate date = LocalDate.now();
-            Month month = date.minusMonths(1).getMonth();
-            int year = date.getYear();
-            LocalDate listDate = LocalDate.parse(date2);;
-
-            if (listDate.getMonth() == month && listDate.getYear()==year) {
-                System.out.println(lists().get(i));
-            }
-
-        }
+//        List<String> monthToDate = lists();
+//        for (int i = 0; i < lists().size(); i++) {
+//            String dateMonth = lists().get(i);
+//            String[] split = dateMonth.split("\\|");
+//            String date2 = split[0];
+//            LocalDate date = LocalDate.now();
+//            Month month = date.minusMonths(1).getMonth();
+//            int year = date.getYear();
+//            LocalDate listDate = LocalDate.parse(date2);;
+//
+//            if (listDate.getMonth() == month && listDate.getYear()==year) {
+//                System.out.println(lists().get(i));
+//            }
+//
+//        }
     }
 
     public static void yearToDate(){
-        List<String> monthToDate = lists();
-        for (int i = 0; i < lists().size(); i++){
-            String dateMonth = lists().get(i);
-            String[] split = dateMonth.split("\\|");
-            String date2 = split[0];
-            LocalDate date = LocalDate.now();
-            int year = date.getYear();
-            LocalDate listDate = LocalDate.parse(date2);
-
-            if (listDate.getYear() == year){
-                System.out.println(lists().get(i));
-            }
-
-        }
+//        List<String> monthToDate = lists();
+//        for (int i = 0; i < lists().size(); i++){
+//            String dateMonth = lists().get(i);
+//            String[] split = dateMonth.split("\\|");
+//            String date2 = split[0];
+//            LocalDate date = LocalDate.now();
+//            int year = date.getYear();
+//            LocalDate listDate = LocalDate.parse(date2);
+//
+//            if (listDate.getYear() == year){
+//                System.out.println(lists().get(i));
+//            }
+//
+//        }
     }
 
     public static void previousYear(){
-        List<String> monthToDate = lists();
-        for (int i = 0; i < lists().size(); i++){
-            String dateMonth = lists().get(i);
-            String[] split = dateMonth.split("\\|");
-            String date2 = split[0];
-            LocalDate date = LocalDate.now();
-            int year = date.minusYears(1).getYear();
-            LocalDate listDate = LocalDate.parse(date2);
-
-            if (listDate.getYear() == year){
-                System.out.println(lists().get(i));
-            }
-        }
+//        List<String> monthToDate = lists();
+//        for (int i = 0; i < lists().size(); i++){
+//            String dateMonth = lists().get(i);
+//            String[] split = dateMonth.split("\\|");
+//            String date2 = split[0];
+//            LocalDate date = LocalDate.now();
+//            int year = date.minusYears(1).getYear();
+//            LocalDate listDate = LocalDate.parse(date2);
+//
+//            if (listDate.getYear() == year){
+//                System.out.println(lists().get(i));
+//            }
+//        }
     }
 
     public static void goBackLedger() {
@@ -418,110 +404,110 @@ public class CLI_Application {
     }
 
     public static void search(){
-        List<String> searching = lists();
-        System.out.println("Please enter the vendor name");
-        String vendor = scanner.nextLine();
-        boolean choice = false;
-        for (int i = 0; i < lists().size(); i++){
-            String name = lists().get(i);
-            String[] split = name.split("\\|");
-            String part = split[3];
+//        List<String> searching = lists();
+//        System.out.println("Please enter the vendor name");
+//        String vendor = scanner.nextLine();
+//        boolean choice = false;
+//        for (int i = 0; i < lists().size(); i++){
+//            String name = lists().get(i);
+//            String[] split = name.split("\\|");
+//            String part = split[3];
+//
+//            if (part.trim().equalsIgnoreCase(vendor)){
+//                System.out.println(lists().get(i));
+//                choice = true;
+//            }
+//        }
+//       if (!choice){
+//           System.out.println("Sorry, we couldn't find any entries for that vendor.");}
+//
+//    }
 
-            if (part.trim().equalsIgnoreCase(vendor)){
-                System.out.println(lists().get(i));
-                choice = true;
-            }
-        }
-       if (!choice){
-           System.out.println("Sorry, we couldn't find any entries for that vendor.");}
-
+//    public static void startDate(){
+//        List<String> startDate = lists();
+//        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
+//        String date = scanner.nextLine();
+//        LocalDate userDate = LocalDate.parse(date);
+//
+//        for (int i = 0; i < lists().size(); i++){
+//            String date2 = lists().get(i);
+//            String[] split = date2.split("\\|");
+//            String startingDate = split[0];
+//            LocalDate localDate = LocalDate.parse(startingDate);
+//
+//           if (userDate.isBefore(localDate)){
+//               System.out.println(lists().get(i));
+//           }
+//        }
     }
 
-    public static void startDate(){
-        List<String> startDate = lists();
-        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
-        String date = scanner.nextLine();
-        LocalDate userDate = LocalDate.parse(date);
+//    public static void endDate(){
+//        List<String> endDate = lists();
+//        System.out.println("End Date: The date for the search.(yyyy-MM-dd)");
+//        String date = scanner.nextLine();
+//        LocalDate userDate = LocalDate.parse(date);
+//
+//        for (int i = 0; i < lists().size(); i++){
+//            String date2 = lists().get(i);
+//            String[] split = date2.split("\\|");
+//            String endingDate = split[0];
+//            LocalDate localDate = LocalDate.parse(endingDate);
+//
+//            if (userDate.isAfter(localDate)){
+//                System.out.println(lists().get(i));
+//            }
+//        }
+//    }
 
-        for (int i = 0; i < lists().size(); i++){
-            String date2 = lists().get(i);
-            String[] split = date2.split("\\|");
-            String startingDate = split[0];
-            LocalDate localDate = LocalDate.parse(startingDate);
+//    public static void description() {
+//        List<String> descriptions = lists();
+//        System.out.println("Please enter the description");
+//        String detail = scanner.nextLine();
+//
+//        for (int i = 0; i < lists().size(); i++) {
+//            String string = lists().get(i);
+//            String[] split = string.split("\\|");
+//            String description = split[2];
+//
+//            if (detail.trim().equalsIgnoreCase(description)) {
+//                System.out.println(lists().get(i));
+//            }
+//        }
+//    }
 
-           if (userDate.isBefore(localDate)){
-               System.out.println(lists().get(i));
-           }
-        }
-    }
-
-    public static void endDate(){
-        List<String> endDate = lists();
-        System.out.println("End Date: The date for the search.(yyyy-MM-dd)");
-        String date = scanner.nextLine();
-        LocalDate userDate = LocalDate.parse(date);
-
-        for (int i = 0; i < lists().size(); i++){
-            String date2 = lists().get(i);
-            String[] split = date2.split("\\|");
-            String endingDate = split[0];
-            LocalDate localDate = LocalDate.parse(endingDate);
-
-            if (userDate.isAfter(localDate)){
-                System.out.println(lists().get(i));
-            }
-        }
-    }
-
-    public static void description() {
-        List<String> descriptions = lists();
-        System.out.println("Please enter the description");
-        String detail = scanner.nextLine();
-
-        for (int i = 0; i < lists().size(); i++) {
-            String string = lists().get(i);
-            String[] split = string.split("\\|");
-            String description = split[2];
-
-            if (detail.trim().equalsIgnoreCase(description)) {
-                System.out.println(lists().get(i));
-            }
-        }
-    }
-
-    public static void vendor() {
-        List<String> vendors = lists();
-        System.out.println("Please enter the vendor name");
-        String seller = scanner.nextLine();
-
-        for (int i = 0; i < lists().size(); i++) {
-            String string = lists().get(i);
-            String[] split = string.split("\\|");
-            String vendor = split[3];
-
-            if (seller.trim().equalsIgnoreCase(vendor)) {
-                System.out.println(lists().get(i));
-            }
-
-
-        }
-    }
-
-    public static void amount() {
-        List<String> amounts = lists();
-        System.out.println("Please enter the amount");
-        float userAmount = scanner.nextFloat();
-
-        for (int i = 0; i < lists().size(); i++) {
-            String string = lists().get(i);
-            String[] split = string.split("\\|");
-            float amount = Float.parseFloat(split[4]);
-
-            if (userAmount==amount) {
-                System.out.println(lists().get(i));
-            }
-        }
-    }
+//    public static void vendor() {
+//        List<String> vendors = lists();
+//        System.out.println("Please enter the vendor name");
+//        String seller = scanner.nextLine();
+//
+//        for (int i = 0; i < lists().size(); i++) {
+//            String string = lists().get(i);
+//            String[] split = string.split("\\|");
+//            String vendor = split[3];
+//
+//            if (seller.trim().equalsIgnoreCase(vendor)) {
+//                System.out.println(lists().get(i));
+//            }
+//
+//
+//        }
+//    }
+//
+//    public static void amount() {
+//        List<String> amounts = lists();
+//        System.out.println("Please enter the amount");
+//        float userAmount = scanner.nextFloat();
+//
+//        for (int i = 0; i < lists().size(); i++) {
+//            String string = lists().get(i);
+//            String[] split = string.split("\\|");
+//            float amount = Float.parseFloat(split[4]);
+//
+//            if (userAmount==amount) {
+//                System.out.println(lists().get(i));
+//            }
+//        }
+//    }
 }
 
 
