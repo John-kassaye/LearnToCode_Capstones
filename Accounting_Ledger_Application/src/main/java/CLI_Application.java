@@ -332,20 +332,12 @@ public class CLI_Application {
     }
 
     public static void yearToDate(){
-//        List<String> monthToDate = lists();
-//        for (int i = 0; i < lists().size(); i++){
-//            String dateMonth = lists().get(i);
-//            String[] split = dateMonth.split("\\|");
-//            String date2 = split[0];
-//            LocalDate date = LocalDate.now();
-//            int year = date.getYear();
-//            LocalDate listDate = LocalDate.parse(date2);
-//
-//            if (listDate.getYear() == year){
-//                System.out.println(lists().get(i));
-//            }
-//
-//        }
+
+        for (TransactionRecord transactionRecord : lists()) {
+            if (transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
+                System.out.println(transactionRecord);
+            }
+        }
     }
 
     public static void previousYear(){
