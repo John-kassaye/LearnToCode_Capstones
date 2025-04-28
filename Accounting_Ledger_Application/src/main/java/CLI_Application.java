@@ -472,6 +472,56 @@ public class CLI_Application {
             }
         }
     }
+
+    public static void description() {
+        List<String> descriptions = lists();
+        System.out.println("Please enter the description");
+        String detail = scanner.nextLine();
+
+        for (int i = 0; i < lists().size(); i++) {
+            String string = lists().get(i);
+            String[] split = string.split("\\|");
+            String description = split[2];
+
+            if (detail.trim().equalsIgnoreCase(description)) {
+                System.out.println(lists().get(i));
+            }
+        }
+    }
+
+    public static void vendor() {
+        List<String> vendors = lists();
+        System.out.println("Please enter the vendor name");
+        String seller = scanner.nextLine();
+
+        for (int i = 0; i < lists().size(); i++) {
+            String string = lists().get(i);
+            String[] split = string.split("\\|");
+            String vendor = split[3];
+
+            if (seller.trim().equalsIgnoreCase(vendor)) {
+                System.out.println(lists().get(i));
+            }
+
+
+        }
+    }
+
+    public static void amount() {
+        List<String> amounts = lists();
+        System.out.println("Please enter the amount");
+        float userAmount = scanner.nextFloat();
+
+        for (int i = 0; i < lists().size(); i++) {
+            String string = lists().get(i);
+            String[] split = string.split("\\|");
+            float amount = Float.parseFloat(split[4]);
+
+            if (userAmount==amount) {
+                System.out.println(lists().get(i));
+            }
+        }
+    }
 }
 
 
