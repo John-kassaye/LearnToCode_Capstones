@@ -305,21 +305,12 @@ public class CLI_Application {
     }
 
     public static void monthToDate(){
-//        List<String> monthToDate = lists();
-//       for (int i = 0; i < lists().size(); i++){
-//           String dateMonth = lists().get(i);
-//           String[] split = dateMonth.split("\\|");
-//           String date2 = split[0];
-//           LocalDate date = LocalDate.now();
-//           Month month = date.getMonth();
-//           int year = date.getYear();
-//           LocalDate listDate = LocalDate.parse(date2);;
-//
-//           if (listDate.getMonth()==month && listDate.getYear() == year){
-//               System.out.println(lists().get(i));
-//           }
-//
-//       }
+
+        for (TransactionRecord transactionRecord : lists()) {
+            if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth()) {
+                System.out.println(transactionRecord);
+            }
+        }
     }
 
     public static void previousMonth(){
