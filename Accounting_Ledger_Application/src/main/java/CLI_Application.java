@@ -289,7 +289,7 @@ public class CLI_Application {
                 goBackReports();
                 break;
             case 5:
-                search();
+                searchByVendor();
                 goBackReports();
                 break;
             case 0:
@@ -379,25 +379,16 @@ public class CLI_Application {
         }
     }
 
-    public static void search(){
-//        List<String> searching = lists();
-//        System.out.println("Please enter the vendor name");
-//        String vendor = scanner.nextLine();
-//        boolean choice = false;
-//        for (int i = 0; i < lists().size(); i++){
-//            String name = lists().get(i);
-//            String[] split = name.split("\\|");
-//            String part = split[3];
-//
-//            if (part.trim().equalsIgnoreCase(vendor)){
-//                System.out.println(lists().get(i));
-//                choice = true;
-//            }
-//        }
-//       if (!choice){
-//           System.out.println("Sorry, we couldn't find any entries for that vendor.");}
-//
-//    }
+    public static void searchByVendor(){
+        System.out.println("Please enter the vendor name");
+        String vendor = scanner.nextLine();
+
+        for (TransactionRecord transactionRecord : lists()) {
+            if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
+                System.out.println(transactionRecord);
+            }
+        }
+
 
 //    public static void startDate(){
 //        List<String> startDate = lists();
