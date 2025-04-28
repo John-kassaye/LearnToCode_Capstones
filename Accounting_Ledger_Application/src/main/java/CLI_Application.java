@@ -12,7 +12,6 @@ public class CLI_Application {
     public static void main(String[] args) {
 
         homeScreen();
-
     }
 
     public static void homeScreen() {
@@ -109,14 +108,23 @@ public class CLI_Application {
                 scanner.nextLine();
             }
             TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, amount);
-            writingDepositFile(transactionRecord);
+            writingFile(transactionRecord);
             input = true;
             System.out.println("Your deposit is successfully recorded");
         }
 
     }
 
-    public static void writingDepositFile(TransactionRecord transactionRecord) {
+    public static void writingHeader() {
+        File file = new File("transactions.csv");
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+            writer.write("Date | Time | Description | Vendor | Amount");
+        } catch (IOException e) {
+            System.out.println("File not found");
+        }
+    }
+
+    public static void writingFile(TransactionRecord transactionRecord) {
         File file = new File("transactions.csv");
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
             writer.write(String.valueOf(transactionRecord));
@@ -169,19 +177,9 @@ public class CLI_Application {
                 scanner.nextLine();
             }
             TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, -amount);
-            writingPaymentFile(transactionRecord);
+            writingFile(transactionRecord);
             input = true;
             System.out.println("Your payment is successfully recorded!!");
-        }
-    }
-
-    public static void writingPaymentFile(TransactionRecord transactionRecord) {
-        File file = new File("transactions.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(String.valueOf(transactionRecord));
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("File not found");
         }
     }
 
