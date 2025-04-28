@@ -55,7 +55,8 @@ public class Payment {
             TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, -amount);
             writingFile(transactionRecord);
             input = true;
-            System.out.println("Your payment is successfully recorded!!");
+            System.out.println("Your payment has been successfully recorded!!");
+            System.out.println("You paid $" + amount + "on" + date2 + time2 + "for" + description + "at" + vendor);
         }
     }
 
@@ -70,29 +71,13 @@ public class Payment {
     }
 
     public static void onlyPayment() {
-        for (TransactionRecord transactionRecord : lists()) {
+        System.out.println("Your Payment transactions");
+        System.out.println("Date | Time | Description | Vendor | Amount");
+        for (TransactionRecord transactionRecord : Deposit.lists()) {
             if (transactionRecord.getAmount() < 0) {
                 System.out.println(transactionRecord);
             }
         }
-    }
-
-    public static List<TransactionRecord> lists() {
-        List<TransactionRecord> transaction = new ArrayList<>();
-        String line;
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] splitting = line.split("\\|");
-                LocalDate localDate = LocalDate.parse(splitting[0]);
-                LocalTime localTime = LocalTime.parse(splitting[1]);
-                float amount = Float.parseFloat(splitting[4]);
-                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
-                transaction.add(transactionRecord);
-            }
-        } catch (IOException e) {
-            System.out.println("File not found");
-        }
-        return transaction;
     }
 
 }

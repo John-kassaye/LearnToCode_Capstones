@@ -14,6 +14,7 @@ public class CLI_Application {
     public static void main(String[] args) {
 
         homeScreen();
+
     }
 
     public static void homeScreen() {
@@ -51,7 +52,8 @@ public class CLI_Application {
 
     public static void optionDisplay() {
         System.out.println("""
-                H) Home        x) Exit""");
+                H) Home
+                x) Exit""");
         String choice = scanner.nextLine();
         if (choice.trim().equalsIgnoreCase("x")) {
             System.out.println("""
@@ -126,15 +128,15 @@ public class CLI_Application {
         }
     }
 
-    public static void writingFile(TransactionRecord transactionRecord) {
-        File file = new File("transactions.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(String.valueOf(transactionRecord));
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("File not found");
-        }
-    }
+//    public static void writingFile(TransactionRecord transactionRecord) {
+//        File file = new File("transactions.csv");
+//        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+//            writer.write(String.valueOf(transactionRecord));
+//            writer.newLine();
+//        } catch (IOException e) {
+//            System.out.println("File not found");
+//        }
+//    }
 
 //    public static void addPayment() {
 //        boolean input = false;
@@ -219,27 +221,28 @@ public class CLI_Application {
         }
     }
 
-    public static List<TransactionRecord> lists() {
-        List<TransactionRecord> transaction = new ArrayList<>();
-        String line;
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] splitting = line.split("\\|");
-                LocalDate localDate = LocalDate.parse(splitting[0]);
-                LocalTime localTime = LocalTime.parse(splitting[1]);
-                float amount = Float.parseFloat(splitting[4]);
-                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
-                transaction.add(transactionRecord);
-            }
-        } catch (IOException e) {
-            System.out.println("File not found");
-        }
-        return transaction;
-    }
+//    public static List<TransactionRecord> lists() {
+//        List<TransactionRecord> transaction = new ArrayList<>();
+//        String line;
+//        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
+//            while ((line = bufferedReader.readLine()) != null) {
+//                String[] splitting = line.split("\\|");
+//                LocalDate localDate = LocalDate.parse(splitting[0]);
+//                LocalTime localTime = LocalTime.parse(splitting[1]);
+//                float amount = Float.parseFloat(splitting[4]);
+//                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
+//                transaction.add(transactionRecord);
+//            }
+//        } catch (IOException e) {
+//            System.out.println("File not found");
+//        }
+//        return transaction;
+//    }
 
     public static void allEntries() {
+        System.out.println("Your transaction history is listed below");
         System.out.println("Date | Time | Description | Vendor | Amount");
-        for (TransactionRecord transactionRecord : lists()) {
+        for (TransactionRecord transactionRecord : Deposit.lists()) {
             System.out.println(transactionRecord);
         }
     }
@@ -273,23 +276,23 @@ public class CLI_Application {
         scanner.nextLine();
         switch (choice){
             case 1:
-                monthToDate();
+                Reports.monthToDate();
                 goBackReports();
                 break;
             case 2:
-                previousMonth();
+                Reports.previousMonth();
                 goBackReports();
                 break;
             case 3:
-                yearToDate();
+                Reports.yearToDate();
                 goBackReports();
                 break;
             case 4:
-                previousYear();
+                Reports.previousYear();
                 goBackReports();
                 break;
             case 5:
-                searchByVendor();
+                Reports.searchByVendor();
                 goBackReports();
                 break;
             case 0:
@@ -304,41 +307,41 @@ public class CLI_Application {
         }
     }
 
-    public static void monthToDate(){
-
-        for (TransactionRecord transactionRecord : lists()) {
-            if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth()) {
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void previousMonth(){
-
-        for (TransactionRecord transactionRecord : lists()){
-            if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth().minus(1)){
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void yearToDate(){
-
-        for (TransactionRecord transactionRecord : lists()) {
-            if (transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void previousYear(){
-
-        for (TransactionRecord transactionRecord : lists()) {
-            if (transactionRecord.getDate().getYear() == LocalDate.now().minusYears(1).getYear()) {
-                System.out.println(transactionRecord);
-            }
-        }
-    }
+//    public static void monthToDate(){
+//
+//        for (TransactionRecord transactionRecord : lists()) {
+//            if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth()) {
+//                System.out.println(transactionRecord);
+//            }
+//        }
+//    }
+//
+//    public static void previousMonth(){
+//
+//        for (TransactionRecord transactionRecord : lists()){
+//            if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth().minus(1)){
+//                System.out.println(transactionRecord);
+//            }
+//        }
+//    }
+//
+//    public static void yearToDate(){
+//
+//        for (TransactionRecord transactionRecord : lists()) {
+//            if (transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
+//                System.out.println(transactionRecord);
+//            }
+//        }
+//    }
+//
+//    public static void previousYear(){
+//
+//        for (TransactionRecord transactionRecord : lists()) {
+//            if (transactionRecord.getDate().getYear() == LocalDate.now().minusYears(1).getYear()) {
+//                System.out.println(transactionRecord);
+//            }
+//        }
+//    }
 
     public static void goBackLedger() {
         System.out.println("""
@@ -356,10 +359,12 @@ public class CLI_Application {
     }
 
     public static void goBackReports(){
-        System.out.println("""
+        String choice2 = "";
+        while (!choice2.equalsIgnoreCase("0") || !choice2.equalsIgnoreCase("x"))
+        {System.out.println("""
                         0) Back
                         X) Exit""");
-        String choice2 = scanner.nextLine();
+         choice2 = scanner.nextLine();
         if (choice2.trim().equalsIgnoreCase("0")){
             reports();
         } else if (choice2.trim().equalsIgnoreCase("x")){
@@ -367,37 +372,40 @@ public class CLI_Application {
                     Thank you for using the CLI App!!
                     """);
             System.exit(0);
+        } else {
+            System.out.println("Invalid response");
+        }
         }
     }
 
-    public static void searchByVendor(){
-        System.out.println("Please enter the vendor name");
-        String vendor = scanner.nextLine();
-
-        for (TransactionRecord transactionRecord : lists()) {
-            if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
-                System.out.println(transactionRecord);
-            }
-        }
-
-
-//    public static void startDate(){
-//        List<String> startDate = lists();
-//        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
-//        String date = scanner.nextLine();
-//        LocalDate userDate = LocalDate.parse(date);
+//    public static void searchByVendor(){
+//        System.out.println("Please enter the vendor name");
+//        String vendor = scanner.nextLine();
 //
-//        for (int i = 0; i < lists().size(); i++){
-//            String date2 = lists().get(i);
-//            String[] split = date2.split("\\|");
-//            String startingDate = split[0];
-//            LocalDate localDate = LocalDate.parse(startingDate);
-//
-//           if (userDate.isBefore(localDate)){
-//               System.out.println(lists().get(i));
-//           }
+//        for (TransactionRecord transactionRecord : lists()) {
+//            if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
+//                System.out.println(transactionRecord);
+//            }
 //        }
-    }
+//
+//
+////    public static void startDate(){
+////        List<String> startDate = lists();
+////        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
+////        String date = scanner.nextLine();
+////        LocalDate userDate = LocalDate.parse(date);
+////
+////        for (int i = 0; i < lists().size(); i++){
+////            String date2 = lists().get(i);
+////            String[] split = date2.split("\\|");
+////            String startingDate = split[0];
+////            LocalDate localDate = LocalDate.parse(startingDate);
+////
+////           if (userDate.isBefore(localDate)){
+////               System.out.println(lists().get(i));
+////           }
+////        }
+//    }
 
 //    public static void endDate(){
 //        List<String> endDate = lists();

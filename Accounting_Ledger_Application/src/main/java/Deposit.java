@@ -46,6 +46,7 @@ public class Deposit {
             while (!input4) try {
                 System.out.println("Please enter the amount");
                 amount = scanner.nextFloat();
+                scanner.nextLine();
                 input4 = true;
             } catch (InputMismatchException e) {
                 System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
@@ -54,7 +55,8 @@ public class Deposit {
             TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, amount);
             writingFile(transactionRecord);
             input = true;
-            System.out.println("Your deposit is successfully recorded");
+            System.out.println("Your deposit has been successfully recorded");
+            System.out.println("You deposited $" + amount + "on" + date2 + time2 + "for" + description + "at" + vendor);
         }
 
     }
@@ -70,6 +72,8 @@ public class Deposit {
     }
 
     public static void onlyDeposit() {
+        System.out.println("Your Deposit transactions");
+        System.out.println("Date | Time | Description | Vendor | Amount");
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getAmount() > 0) {
                 System.out.println(transactionRecord);
