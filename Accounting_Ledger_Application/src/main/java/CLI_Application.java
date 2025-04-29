@@ -394,6 +394,19 @@ public class CLI_Application {
             }
         }
     }
+
+    public static void endDate(){
+        System.out.println("End Date: The ending date for the search.(yyyy-MM-dd)");
+        String date = scanner.nextLine();
+        LocalDate userDate = LocalDate.parse(date);
+
+        for (TransactionRecord transactionRecord : Deposit.lists()) {
+            if (userDate.isAfter(transactionRecord.getDate())) {
+                System.out.println(transactionRecord);
+            }
+        }
+    }
+
 }
 
 
