@@ -50,5 +50,5 @@ Users can run predefined or custom reports.
 ## 🛠 How to Run
 
 1. Clone the repository:
-   ```bash
-https://github.com/John-kassaye/LearnToCode_Capstones.git
+    https://github.com/John-kassaye/LearnToCode_Capstones.git
+
