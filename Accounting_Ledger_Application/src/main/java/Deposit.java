@@ -50,13 +50,13 @@ public class Deposit {
                 scanner.nextLine();
                 input4 = true;
             } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+                System.out.println("Invalid amount entered. Please enter a numerical value.");
                 scanner.nextLine();
             }
             TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, amount);
             writingFile(transactionRecord);
             input = true;
-            System.out.println("Your deposit has been successfully recorded");
+            System.out.println("✅ Your deposit has been successfully recorded ");
             System.out.println("You deposited $" + amount + "on" + date2 + time2 + "for" + description + "at" + vendor);
         }
 

@@ -6,6 +6,7 @@ public class CLI_Application {
 
     public static void main(String[] args) {
 
+        login();
         homeScreen();
 
     }
@@ -279,6 +280,24 @@ public class CLI_Application {
                 System.out.println(transactionRecord);
             }
         }
+    }
+
+    public static boolean login() {
+        boolean input = false;
+        while (!input) {
+            System.out.println("User name");
+            String name = scanner.nextLine();
+            System.out.println("Password");
+            int password = scanner.nextInt();
+
+            if (name.trim().equals("Year up") && password == 1234) {
+                input = true;
+            } else {
+                System.out.println("Incorrect username and password");
+                input = false;
+            }
+        }
+        return input;
     }
 }
 
