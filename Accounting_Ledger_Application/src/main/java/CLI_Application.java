@@ -417,6 +417,17 @@ public class CLI_Application {
             }
         }
     }
+
+    public static void vendor(){
+        System.out.println("Enter the vendor name for the search");
+        String vendor = scanner.nextLine();
+
+        for (TransactionRecord transactionRecord : Deposit.lists()){
+            if (transactionRecord.getVendor().contains(vendor)){
+                System.out.println(transactionRecord);
+            }
+        }
+    }
 }
 
 
