@@ -108,4 +108,15 @@ public class Reports {
 
     }
 
+    public static Float balance(){
+        float result = 0;
+        List<TransactionRecord> transactionRecords;
+        transactionRecords = Deposit.lists();
+
+        for (int i=0; i<lists().size();i++){
+            result+= transactionRecords.get(i).getAmount();
+        }
+
+        return result;
+    }
 }

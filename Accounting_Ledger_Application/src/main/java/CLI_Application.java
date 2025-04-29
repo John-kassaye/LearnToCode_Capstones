@@ -23,14 +23,16 @@ public class CLI_Application {
         String choice = "";
         do {
             System.out.println("""
-                 
-                     ======== Welcome to Bank Of America ========
-                    
-                    D) Add Deposit
-                    P) Make Payment (Debit)
-                    L) Ledger
-                    X) Exit
-                    """);
+
+                    ======== Welcome to Bank Of America ========+
+                     Current Balance:""" + String.format("%.2f" , Reports.balance()));
+            System.out.println("-------------------------------------");
+            System.out.println("""
+                     D) Add Deposit
+                     P) Make Payment (Debit)
+                     L) Ledger
+                     X) Exit\n
+                     Select an option:""");
             choice = scanner.nextLine().trim();
 
             switch (choice.toLowerCase()) {
