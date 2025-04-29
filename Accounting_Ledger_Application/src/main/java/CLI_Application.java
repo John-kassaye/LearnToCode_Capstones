@@ -23,6 +23,7 @@ public class CLI_Application {
         String choice = "";
         do {
             System.out.println("""
+                 
                      ======== Welcome to Bank Of America ========
                     
                     D) Add Deposit
@@ -124,7 +125,7 @@ public class CLI_Application {
 
     public static void allEntries() {
         System.out.println();
-        System.out.println("Your transaction history is listed below");
+        System.out.println("======== transaction history ========");
         System.out.println();
         System.out.println("Date | Time | Description | Vendor | Amount");
         System.out.println("_________________________________________");
@@ -137,12 +138,15 @@ public class CLI_Application {
         boolean input = false;
         while (!input) try {
             System.out.println("""
+                    ======== Reports Menu ========
+                    
                     1) Month To Date
                     2) Previous Month
                     3) Year To Date
                     4) Previous Year
                     5) Search by Vendor
-                    0) Back""");
+                    0) Back
+                    """);
             int choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
@@ -201,14 +205,17 @@ public class CLI_Application {
         String choice2 = "";
         while (!choice2.equalsIgnoreCase("0") || !choice2.equalsIgnoreCase("x")) {
             System.out.println("""
+                    
                     0) Back
-                    X) Exit""");
+                    X) Exit
+                    """);
             choice2 = scanner.nextLine();
             if (choice2.trim().equalsIgnoreCase("0")) {
                 reports();
             } else if (choice2.trim().equalsIgnoreCase("x")) {
                 System.out.println("""
-                        Thank you for using the CLI App!!
+                       
+                        Thank you for using the BOA App!!
                         """);
                 System.exit(0);
             } else {
@@ -217,12 +224,10 @@ public class CLI_Application {
         }
     }
 
-
     public static void startDate() {
         System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
         String date = scanner.nextLine();
         LocalDate userDate = LocalDate.parse(date);
-
 
         for (TransactionRecord transactionRecord : Deposit.lists()) {
             if (userDate.isAfter(transactionRecord.getDate())) {

@@ -11,6 +11,8 @@ import java.util.Scanner;
 public class Payment {
     static Scanner scanner = new Scanner(System.in);
     public static void addPayment() {
+        // I could have used single try-catch ,but I choose this approach to avoid asking the user to re-enter everything in case of an error
+
         boolean input = false;
         boolean input2 = false;
         boolean input3 = false;
@@ -72,7 +74,7 @@ public class Payment {
     }
 
     public static void onlyPayment() {
-        System.out.println("Your Payment transactions");
+        System.out.println("======== Payment transactions history ========");
         System.out.println();
         System.out.println("Date | Time | Description | Vendor | Amount");
         System.out.println("___________________________________________");

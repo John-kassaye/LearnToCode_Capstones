@@ -11,6 +11,7 @@ import java.util.Scanner;
 public class Deposit {
     static Scanner scanner = new Scanner(System.in);
     public static void addDeposit() {
+        // I could have used single try-catch ,but I choose this approach to avoid asking the user to re-enter everything in case of an error
 
         boolean input = false;
         boolean input2 = false;
@@ -72,7 +73,7 @@ public class Deposit {
     }
 
     public static void onlyDeposit() {
-        System.out.println("Your Deposit transactions");
+        System.out.println("======== Deposit transactions history ========");
         System.out.println();
         System.out.println("Date | Time | Description | Vendor | Amount");
         System.out.println("___________________________________________");
