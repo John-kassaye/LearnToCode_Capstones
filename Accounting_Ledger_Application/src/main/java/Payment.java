@@ -83,7 +83,6 @@ public class Payment {
             if (transactionRecord.getAmount() < 0) {
                 System.out.println(transactionRecord);
                 input = true;
-                break;
             }
         }
         if (!input){

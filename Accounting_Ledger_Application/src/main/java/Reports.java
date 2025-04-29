@@ -36,7 +36,6 @@ public class Reports {
                     transactionRecord.getDate().getYear() == LocalDate.now().getYear()){
                 System.out.println(transactionRecord);
                 input = true;
-                break;
             }
         }
         if (!input){
@@ -52,7 +51,6 @@ public class Reports {
                     transactionRecord.getDate().getYear() == LocalDate.now().getYear()){
                 System.out.println(transactionRecord);
                 input = true;
-                break;
             }
         }
         if (!input){
@@ -67,7 +65,6 @@ public class Reports {
             if (transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
                 System.out.println(transactionRecord);
                 input = true;
-                break;
             }
         }
         if (!input){
@@ -82,7 +79,6 @@ public class Reports {
             if (transactionRecord.getDate().getYear() == LocalDate.now().minusYears(1).getYear()) {
                 System.out.println(transactionRecord);
                 input = true;
-                break;
             }
         }
         if (!input){
@@ -99,7 +95,6 @@ public class Reports {
             if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transactionRecord);
                 input = true;
-                break;
             }
         }
 

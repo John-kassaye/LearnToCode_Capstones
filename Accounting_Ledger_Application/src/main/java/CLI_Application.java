@@ -1,13 +1,5 @@
-import java.awt.*;
-import java.io.*;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.Year;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
-import java.util.List;
 
 public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
@@ -24,14 +16,15 @@ public class CLI_Application {
         do {
             System.out.println("""
 
-                    ======== Welcome to Bank Of America ========+
+                    ======== Welcome to Bank Of America ========
                      Current Balance:""" + String.format("%.2f" , Reports.balance()));
             System.out.println("-------------------------------------");
             System.out.println("""
                      D) Add Deposit
                      P) Make Payment (Debit)
                      L) Ledger
-                     X) Exit\n
+                     X) Exit
+                     
                      Select an option:""");
             choice = scanner.nextLine().trim();
 
@@ -65,7 +58,7 @@ public class CLI_Application {
         if (choice.trim().equalsIgnoreCase("x")) {
             System.out.println("""
                    
-                    Thank you for using the BOA App!!
+                    Thank you for using BOA. Have a great day 🌟
                     """);
             System.exit(0);
         }
@@ -74,57 +67,53 @@ public class CLI_Application {
     public static void goodByeDisplay() {
         System.out.println("""
                 
-                Thank you for using the BOA App!!
+                Thank you for using BOA. Have a great day 🌟
                 """);
         System.exit(0);
     }
 
-    public static void writingHeader() {
-        File file = new File("transactions.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write("Date | Time | Description | Vendor | Amount");
-        } catch (IOException e) {
-            System.out.println("File not found");
-        }
-    }
-
     public static void ledger() {
         String choice;
+        boolean input = false;
         System.out.println("""
+                
                 ======== Ledger Menu ========
+                -----------------------------
                 
                 A) All Entries
                 D) Deposits
                 P) Payments
                 R) Reports
                 H) Home
-                """);
+                
+                Select an option:""");
         choice = scanner.nextLine();
-        switch (choice.trim().toLowerCase()) {
-            case "a":
-                allEntries();
-                goBackLedger();
-                break;
-            case "d":
-                Deposit.onlyDeposit();
-                goBackLedger();
-                break;
-            case "p":
-                Payment.onlyPayment();
-                goBackLedger();
-                break;
-            case "r":
-                reports();
-                break;
-            case "h":
-                homeScreen();
-                break;
-            default:
-                System.out.println("Invalid input, please try again.");
-                break;
-        }
-    }
+            switch (choice.trim().toLowerCase()) {
+                case "a":
+                    allEntries();
+                    goBackLedger();
+                    break;
+                case "d":
+                    Deposit.onlyDeposit();
+                    goBackLedger();
+                    break;
+                case "p":
+                    Payment.onlyPayment();
+                    goBackLedger();
+                    break;
+                case "r":
+                    reports();
+                    break;
+                case "h":
+                    homeScreen();
+                    break;
+                default:
+                    System.out.println("Invalid input, please try again.");
+                    ledger();
+                    break;
+            }
 
+    }
     public static void allEntries() {
         System.out.println();
         System.out.println("======== transaction history ========");
@@ -141,6 +130,7 @@ public class CLI_Application {
         while (!input) try {
             System.out.println("""
                     ======== Reports Menu ========
+                    ------------------------------
                     
                     1) Month To Date
                     2) Previous Month
@@ -148,7 +138,8 @@ public class CLI_Application {
                     4) Previous Year
                     5) Search by Vendor
                     0) Back
-                    """);
+                    
+                    Select an option:""");
             int choice = scanner.nextInt();
             scanner.nextLine();
             switch (choice) {
@@ -177,7 +168,6 @@ public class CLI_Application {
                     input = true;
                     break;
 
-
             }
         } catch (InputMismatchException e) {
             System.out.println("Please enter a number");
@@ -186,43 +176,51 @@ public class CLI_Application {
     }
 
     public static void goBackLedger() {
-        System.out.println("""
-                
-                0) Back
-                X) Exit
-                """);
-        String choice = scanner.nextLine();
-        if (choice.trim().equalsIgnoreCase("0")) {
-            ledger();
-        } else if (choice.trim().equalsIgnoreCase("x")) {
-            System.out.println("""
-                    
-                    Thank you for using the CLI App!!
-                    """);
-            System.exit(0);
-        }
-    }
-
-    public static void goBackReports() {
-        String choice2 = "";
-        while (!choice2.equalsIgnoreCase("0") || !choice2.equalsIgnoreCase("x")) {
+        boolean input = false;
+        while (!input) {
             System.out.println("""
                     
                     0) Back
                     X) Exit
                     """);
-            choice2 = scanner.nextLine();
-            if (choice2.trim().equalsIgnoreCase("0")) {
-                reports();
-            } else if (choice2.trim().equalsIgnoreCase("x")) {
+            String choice = scanner.nextLine();
+            if (choice.trim().equalsIgnoreCase("0")) {
+                ledger();
+                input = true;
+            } else if (choice.trim().equalsIgnoreCase("x")) {
                 System.out.println("""
-                       
-                        Thank you for using the BOA App!!
+                        
+                        Thank you for using the CLI App!!
                         """);
                 System.exit(0);
+                input = true;
             } else {
-                System.out.println("Invalid response");
+                System.out.println("Invalid input. please try again");
             }
+        }
+    }
+
+    public static void goBackReports() {
+        boolean input1 = false;
+        while (!input1) {System.out.println("""
+                    
+                    0) Back
+                    X) Exit
+                    """);
+            String choice2 = scanner.nextLine();
+                   if (choice2.trim().equalsIgnoreCase("0")) {
+                       reports();
+                       input1 = true;
+                   } else if (choice2.trim().equalsIgnoreCase("x")) {
+                       System.out.println("""
+                               
+                               Thank you for using the BOA App!!
+                               """);
+                       System.exit(0);
+                       input1 = true;
+                   } else {
+                       System.out.println("Invalid response");
+                   }
         }
     }
 
