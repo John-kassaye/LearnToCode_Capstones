@@ -11,6 +11,7 @@ import java.util.List;
 
 public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
 
         homeScreen();
@@ -189,7 +190,7 @@ public class CLI_Application {
 
     public static void ledger() {
         String choice;
-         System.out.println("""
+        System.out.println("""
                 A) All Entries
                 D) Deposits
                 P) Payments
@@ -265,43 +266,45 @@ public class CLI_Application {
 
     public static void reports() {
         boolean input = false;
-        while (!input) try{ System.out.println("""
-                1) Month To Date
-                2) Previous Month
-                3) Year To Date
-                4) Previous Year
-                5) Search by Vendor
-                0) Back""");
-        int choice = scanner.nextInt();
-        scanner.nextLine();
-        switch (choice){
-            case 1:
-                Reports.monthToDate();
-                goBackReports();
-                break;
-            case 2:
-                Reports.previousMonth();
-                goBackReports();
-                break;
-            case 3:
-                Reports.yearToDate();
-                goBackReports();
-                break;
-            case 4:
-                Reports.previousYear();
-                goBackReports();
-                break;
-            case 5:
-                Reports.searchByVendor();
-                goBackReports();
-                break;
-            case 0:
-                ledger();
-                input = true;
-                break;
+        while (!input) try {
+            System.out.println("""
+                    1) Month To Date
+                    2) Previous Month
+                    3) Year To Date
+                    4) Previous Year
+                    5) Search by Vendor
+                    0) Back""");
+            int choice = scanner.nextInt();
+            scanner.nextLine();
+            switch (choice) {
+                case 1:
+                    Reports.monthToDate();
+                    goBackReports();
+                    break;
+                case 2:
+                    Reports.previousMonth();
+                    goBackReports();
+                    break;
+                case 3:
+                    Reports.yearToDate();
+                    goBackReports();
+                    break;
+                case 4:
+                    Reports.previousYear();
+                    goBackReports();
+                    break;
+                case 5:
+                    Reports.searchByVendor();
+                    goBackReports();
+                    break;
+                case 0:
+                    ledger();
+                    input = true;
+                    break;
 
 
-        }} catch (InputMismatchException e){
+            }
+        } catch (InputMismatchException e) {
             System.out.println("Please enter a number");
             scanner.nextLine();
         }
@@ -358,123 +361,41 @@ public class CLI_Application {
         }
     }
 
-    public static void goBackReports(){
+    public static void goBackReports() {
         String choice2 = "";
-        while (!choice2.equalsIgnoreCase("0") || !choice2.equalsIgnoreCase("x"))
-        {System.out.println("""
-                        0) Back
-                        X) Exit""");
-         choice2 = scanner.nextLine();
-        if (choice2.trim().equalsIgnoreCase("0")){
-            reports();
-        } else if (choice2.trim().equalsIgnoreCase("x")){
+        while (!choice2.equalsIgnoreCase("0") || !choice2.equalsIgnoreCase("x")) {
             System.out.println("""
-                    Thank you for using the CLI App!!
-                    """);
-            System.exit(0);
-        } else {
-            System.out.println("Invalid response");
-        }
+                    0) Back
+                    X) Exit""");
+            choice2 = scanner.nextLine();
+            if (choice2.trim().equalsIgnoreCase("0")) {
+                reports();
+            } else if (choice2.trim().equalsIgnoreCase("x")) {
+                System.out.println("""
+                        Thank you for using the CLI App!!
+                        """);
+                System.exit(0);
+            } else {
+                System.out.println("Invalid response");
+            }
         }
     }
 
-//    public static void searchByVendor(){
-//        System.out.println("Please enter the vendor name");
-//        String vendor = scanner.nextLine();
-//
-//        for (TransactionRecord transactionRecord : lists()) {
-//            if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
-//                System.out.println(transactionRecord);
-//            }
-//        }
-//
-//
-////    public static void startDate(){
-////        List<String> startDate = lists();
-////        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
-////        String date = scanner.nextLine();
-////        LocalDate userDate = LocalDate.parse(date);
-////
-////        for (int i = 0; i < lists().size(); i++){
-////            String date2 = lists().get(i);
-////            String[] split = date2.split("\\|");
-////            String startingDate = split[0];
-////            LocalDate localDate = LocalDate.parse(startingDate);
-////
-////           if (userDate.isBefore(localDate)){
-////               System.out.println(lists().get(i));
-////           }
-////        }
-//    }
 
-//    public static void endDate(){
-//        List<String> endDate = lists();
-//        System.out.println("End Date: The date for the search.(yyyy-MM-dd)");
-//        String date = scanner.nextLine();
-//        LocalDate userDate = LocalDate.parse(date);
-//
-//        for (int i = 0; i < lists().size(); i++){
-//            String date2 = lists().get(i);
-//            String[] split = date2.split("\\|");
-//            String endingDate = split[0];
-//            LocalDate localDate = LocalDate.parse(endingDate);
-//
-//            if (userDate.isAfter(localDate)){
-//                System.out.println(lists().get(i));
-//            }
-//        }
-//    }
+    public static void startDate() {
+        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
+        String date = scanner.nextLine();
+        LocalDate userDate = LocalDate.parse(date);
 
-//    public static void description() {
-//        List<String> descriptions = lists();
-//        System.out.println("Please enter the description");
-//        String detail = scanner.nextLine();
-//
-//        for (int i = 0; i < lists().size(); i++) {
-//            String string = lists().get(i);
-//            String[] split = string.split("\\|");
-//            String description = split[2];
-//
-//            if (detail.trim().equalsIgnoreCase(description)) {
-//                System.out.println(lists().get(i));
-//            }
-//        }
-//    }
 
-//    public static void vendor() {
-//        List<String> vendors = lists();
-//        System.out.println("Please enter the vendor name");
-//        String seller = scanner.nextLine();
-//
-//        for (int i = 0; i < lists().size(); i++) {
-//            String string = lists().get(i);
-//            String[] split = string.split("\\|");
-//            String vendor = split[3];
-//
-//            if (seller.trim().equalsIgnoreCase(vendor)) {
-//                System.out.println(lists().get(i));
-//            }
-//
-//
-//        }
-//    }
-//
-//    public static void amount() {
-//        List<String> amounts = lists();
-//        System.out.println("Please enter the amount");
-//        float userAmount = scanner.nextFloat();
-//
-//        for (int i = 0; i < lists().size(); i++) {
-//            String string = lists().get(i);
-//            String[] split = string.split("\\|");
-//            float amount = Float.parseFloat(split[4]);
-//
-//            if (userAmount==amount) {
-//                System.out.println(lists().get(i));
-//            }
-//        }
-//    }
+        for (TransactionRecord transactionRecord : Deposit.lists()) {
+            if (userDate.isAfter(transactionRecord.getDate())) {
+                System.out.println(transactionRecord);
+            }
+        }
+    }
 }
+
 
 
 
