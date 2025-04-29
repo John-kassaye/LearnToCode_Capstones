@@ -407,6 +407,16 @@ public class CLI_Application {
         }
     }
 
+    public static void description(){
+        System.out.println("Enter the description for the search");
+        String description = scanner.nextLine();
+
+        for (TransactionRecord transactionRecord : Deposit.lists()){
+            if (transactionRecord.getDescription().contains(description)){
+                System.out.println(transactionRecord);
+            }
+        }
+    }
 }
 
 
