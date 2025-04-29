@@ -28,7 +28,7 @@ public class Payment {
                 date2 = LocalDate.parse(date, dateTimeFormatter);
                 input2 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date.");
+                System.out.println("Error: Invalid date format. Please use yyyy-MM-dd for date.");
             }
             while (!input3) try {
                 System.out.println("Please enter the time");
@@ -37,7 +37,7 @@ public class Payment {
                 time2 = LocalTime.parse(time, dtf);
                 input3 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date or time format. Please use HH:mm for time.");
+                System.out.println("Error: Invalid time format. Please use HH:mm for time.");
             }
             System.out.println("Please enter the description");
             String description = scanner.nextLine();
@@ -56,6 +56,7 @@ public class Payment {
             writingFile(transactionRecord);
             input = true;
             System.out.println("Your payment has been successfully recorded!!");
+            System.out.println("______________________________________________");
             System.out.println("You paid $" + amount + "on" + date2 + time2 + "for" + description + "at" + vendor);
         }
     }
@@ -72,8 +73,9 @@ public class Payment {
 
     public static void onlyPayment() {
         System.out.println("Your Payment transactions");
+        System.out.println();
         System.out.println("Date | Time | Description | Vendor | Amount");
-
+        System.out.println("___________________________________________");
         boolean input = false;
         for (TransactionRecord transactionRecord : Deposit.lists()) {
             if (transactionRecord.getAmount() < 0) {

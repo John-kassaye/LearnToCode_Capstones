@@ -22,13 +22,13 @@ public class Deposit {
             Float amount = null;
             while (!input2) try {
                 System.out.println("""
-                        Please enter the date in the following format (yyyy-MM-dd)""");
+                        Please enter the date in the following format (yyyy-M-d)""");
                 String date = scanner.nextLine();
                 DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
                 date2 = LocalDate.parse(date, dateTimeFormatter);
                 input2 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date or time format. Please use yyyy-MM-dd for date and HH:mm for time.");
+                System.out.println("Error: Invalid date format. Please use yyyy-MM-dd for date.");
             }
             while (!input3) try {
                 System.out.println("Please enter the time");
@@ -37,7 +37,7 @@ public class Deposit {
                 time2 = LocalTime.parse(time, dtf);
                 input3 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid time format. Please use HH:mm for time.");
+                System.out.println("Error: Invalid time format. Please use H:mm for time.");
             }
             System.out.println("Please enter the description");
             String description = scanner.nextLine();
@@ -73,7 +73,10 @@ public class Deposit {
 
     public static void onlyDeposit() {
         System.out.println("Your Deposit transactions");
+        System.out.println();
         System.out.println("Date | Time | Description | Vendor | Amount");
+        System.out.println("___________________________________________");
+
 
         boolean input = false;
         for (TransactionRecord transactionRecord : lists()) {
