@@ -428,6 +428,17 @@ public class CLI_Application {
             }
         }
     }
+
+    public static void amount(){
+        System.out.println("Enter the amount for the search");
+        float amount = scanner.nextFloat();
+
+        for (TransactionRecord transactionRecord : Deposit.lists()){
+            if (transactionRecord.getAmount()==amount){
+                System.out.println(transactionRecord);
+            }
+        }
+    }
 }
 
 
