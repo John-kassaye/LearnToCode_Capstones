@@ -10,7 +10,7 @@ public class CLI_Application {
 
     public static void main(String[] args) {
 
-        login();
+        reports();
     }
 
     public static void homeScreen() {
@@ -19,9 +19,9 @@ public class CLI_Application {
         do {
             System.out.println("""
 
-                    ======== Home ========
+                    ========== Home ==========
                      Current Balance:""" + String.format(" $%.2f " , Reports.balance()));
-            System.out.println("------------------------");
+            System.out.println("--------------------------");
             System.out.println("""
                      
                      D) Add Deposit
@@ -136,6 +136,7 @@ public class CLI_Application {
         boolean input = false;
         while (!input) try {
             System.out.println("""
+                   
                     ======== Reports Menu ========
                     ------------------------------
                     
