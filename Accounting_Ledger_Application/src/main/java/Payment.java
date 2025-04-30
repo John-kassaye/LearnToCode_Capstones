@@ -1,62 +1,38 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class Payment {
     static Scanner scanner = new Scanner(System.in);
     public static void addPayment() {
-        // I could have used single try-catch ,but I choose this approach to avoid asking the user to re-enter everything in case of an error
 
         boolean input = false;
         boolean input2 = false;
-        boolean input3 = false;
-        boolean input4 = false;
         while (!input) {
-            LocalDate date2 = null;
-            LocalTime time2 = null;
+            LocalDate date = LocalDate.now();
+            LocalTime time = LocalTime.now();
             float amount = 0;
 
-            while (!input2) try {
-                System.out.println("""
-                        Please enter the date in the following format (yyyy-M-d)""");
-                String date = scanner.nextLine();
-                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-M-d");
-                date2 = LocalDate.parse(date, dateTimeFormatter);
-                input2 = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date format. Please use yyyy-M-d for date.");
-            }
-            while (!input3) try {
-                System.out.println("Please enter the time");
-                String time = scanner.nextLine();
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("H:mm");
-                time2 = LocalTime.parse(time, dtf);
-                input3 = true;
-            } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid time format. Please use H:mm for time.");
-            }
             System.out.println("Please enter the description");
             String description = scanner.nextLine();
             System.out.println("Please enter the vendor");
             String vendor = scanner.nextLine();
-            while (!input4) try {
+            while (!input2) try {
                 System.out.println("Please enter the amount");
                 amount = scanner.nextFloat();
-                input4 = true;
+                input2 = true;
                 scanner.nextLine();
             } catch (InputMismatchException e) {
                 System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
                 scanner.nextLine();
             }
-            TransactionRecord transactionRecord = new TransactionRecord(date2, time2, description, vendor, -amount);
+            TransactionRecord transactionRecord = new TransactionRecord(date, time, description, vendor, -amount);
             writingFile(transactionRecord);
             input = true;
             System.out.println("✅ Your payment has been successfully recorded!");
             System.out.println("______________________________________________");
-            System.out.println("You paid " + amount + " on " + date2 + " " + time2 + " for " + description + " at " + vendor);
+            System.out.println("You paid " + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
         }
     }
 

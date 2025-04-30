@@ -117,6 +117,44 @@ public class Reports {
 
     }
 
+    public static void customSearch() {
+        boolean input = false;
+        System.out.println("Enter the start date");
+        String startDate = scanner.nextLine();
+        LocalDate localDate = LocalDate.parse(startDate);
+        System.out.println("Enter the end date");
+        String endDate = scanner.nextLine();
+        LocalDate localDate1 = LocalDate.parse(endDate);
+        System.out.println("Enter the description");
+        String description = scanner.nextLine();
+        System.out.println("Enter the vendor name");
+        String vendor = scanner.nextLine();
+        System.out.println("Enter the amount");
+        Float amount = scanner.nextFloat();
+
+        for (TransactionRecord transactionRecord : Deposit.lists()) {
+            if (!startDate.isEmpty() && transactionRecord.getDate().isBefore(localDate)) {
+                input = false;
+            }
+            if (!startDate.isEmpty() && transactionRecord.getDate().isAfter(localDate1)) {
+                input = false;
+            }
+            if (!description.isEmpty() && !transactionRecord.getDescription().contains(description)) {
+                input = false;
+            }
+            if (!vendor.isEmpty() && !transactionRecord.getVendor().contains(vendor)) {
+                input = false;
+            }
+            if (amount != null && !(transactionRecord.getAmount() == amount)) {
+                input = false;
+            }
+
+            if (input) {
+                System.out.println(transactionRecord);
+            }
+        }
+    }
+
     public static Float balance(){
         float result = 0;
         List<TransactionRecord> transactionRecords;

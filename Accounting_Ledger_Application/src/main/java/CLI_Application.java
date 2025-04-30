@@ -144,6 +144,8 @@ public class CLI_Application {
                     3) Year To Date
                     4) Previous Year
                     5) Search by Vendor
+                    6) Custom Search
+                    7) Balance Summary
                     0) Back
                     
                     Select an option:""");
@@ -170,6 +172,9 @@ public class CLI_Application {
                     Reports.searchByVendor();
                     goBackReports();
                     break;
+                case 7:
+                    Reports.balance();
+                    goBackReports();
                 case 0:
                     ledger();
                     input = true;
