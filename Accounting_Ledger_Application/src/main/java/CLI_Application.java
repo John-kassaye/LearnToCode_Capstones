@@ -324,6 +324,26 @@ public class CLI_Application {
         }
     }
 
+    public static List<SignIn> signUpFile(){
+        List<SignIn> signUp = new ArrayList<>();
+        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("signInFile.csv"))) {
+
+            String line;
+            while ((line = bufferedReader.readLine()) != null){
+                String[] parts = line.split(",");
+                String userName = parts[0];
+                int password = Integer.parseInt(parts[1]);
+                SignIn signIn = new SignIn(userName,password);
+                signUp.add(signIn);
+            }
+        } catch (FileNotFoundException e) {
+            System.out.println("File not found");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return signUp;
+    }
+
 }
 
 
