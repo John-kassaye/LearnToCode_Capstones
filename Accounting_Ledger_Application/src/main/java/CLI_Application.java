@@ -10,7 +10,7 @@ public class CLI_Application {
 
     public static void main(String[] args) {
 
-        reports();
+        ledger();
     }
 
     public static void homeScreen() {
