@@ -59,6 +59,7 @@ Users can run predefined or custom reports.
   - Description
   - Vendor
   - Amount
+- `7) Summary Balance` – Displays the total Deposit, Payment, and Net balance of the account.
 - `0) Back` – Return to the Ledger menu.
 </Details>
 
