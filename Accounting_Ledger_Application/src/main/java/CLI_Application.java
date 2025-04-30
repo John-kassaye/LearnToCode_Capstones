@@ -115,6 +115,7 @@ public class CLI_Application {
             }
 
     }
+
     public static void allEntries() {
         System.out.println();
         System.out.println("======== transaction history ========");
@@ -283,29 +284,34 @@ public class CLI_Application {
     }
 
     public static void login() {
-        boolean input = false;
-        while (!input) {
-            System.out.println("""
-                                        ======== Welcome to Bank Of America ========
+        System.out.println("""
+                                    ======== Welcome to Bank Of America ========
 
-                    """);
-            System.out.println("User name:");
-            System.out.println("Password:");
-            String name = scanner.nextLine();
-            int password = scanner.nextInt();
-            scanner.nextLine();
+                1) sign in
+                2) new customer? sign up
+                """);
+        String user = scanner.nextLine();
 
-            if (name.trim().equals("Year up") && password == 1234) {
-                input = true;
-            } else {
-                System.out.println("Incorrect username and password");
-                input = false;
-                login();
-            }
-        }
+        switch (user) {
+            case "1":
+                signInCheck();
+                break;
+            case "2":
+                signUp();
+                System.out.println("""
+                        0) Back
+                        X) Exit
+                        """);
+                String choice = scanner.nextLine();
+                if (choice.trim().equalsIgnoreCase("0")) {
+                    login();
+                } else {
+                    System.exit(0);
+                }
+                break;
+            default:
+                System.out.println("Invalid input");
 
-        if (input == true){
-            homeScreen();
         }
     }
 
@@ -332,7 +338,7 @@ public class CLI_Application {
             while ((line = bufferedReader.readLine()) != null){
                 String[] parts = line.split(",");
                 String userName = parts[0];
-                int password = Integer.parseInt(parts[1]);
+                String password = parts[1];
                 SignIn signIn = new SignIn(userName,password);
                 signUp.add(signIn);
             }
@@ -342,6 +348,29 @@ public class CLI_Application {
             throw new RuntimeException(e);
         }
         return signUp;
+    }
+
+    public static void signInCheck() {
+
+        boolean input = false;
+        while (!input) {
+            System.out.println("Please enter a user name");
+            String userName = scanner.nextLine();
+            System.out.println("Please enter a password");
+            int password = scanner.nextInt();
+            scanner.nextLine();
+
+            List<SignIn> signIns = signUpFile();
+            for (SignIn signIn : signIns) {
+                if (signIn.getUserName().trim().equals(userName) && signIn.getPassword().trim().equals(password)) {
+                    homeScreen();
+                    input = true;
+                } else {
+                    System.out.println("Incorrect user name or password");
+                }
+            }
+
+        }
     }
 
 }

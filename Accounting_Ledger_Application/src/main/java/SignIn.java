@@ -1,8 +1,8 @@
 public class SignIn {
     private String userName;
-    private int password;
+    private String password;
 
-    public SignIn(String userName, int password) {
+    public SignIn(String userName, String  password) {
         this.userName = userName;
         this.password = password;
     }
@@ -15,11 +15,11 @@ public class SignIn {
         this.userName = userName;
     }
 
-    public int getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(int password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 }
