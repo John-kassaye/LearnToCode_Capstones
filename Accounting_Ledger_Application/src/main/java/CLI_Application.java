@@ -2,6 +2,8 @@ import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.Collections;
+import java.util.List;
 
 public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
@@ -17,10 +19,11 @@ public class CLI_Application {
         do {
             System.out.println("""
 
-                    ======== Welcome to Bank Of America ========
-                     Current Balance:""" + String.format("%.2f" , Reports.balance()));
-            System.out.println("-------------------------------------");
+                    ======== Home ========
+                     Current Balance:""" + String.format(" $%.2f " , Reports.balance()));
+            System.out.println("------------------------");
             System.out.println("""
+                     
                      D) Add Deposit
                      P) Make Payment (Debit)
                      L) Ledger
@@ -122,6 +125,8 @@ public class CLI_Application {
         System.out.println();
         System.out.println("Date | Time | Description | Vendor | Amount");
         System.out.println("_________________________________________");
+
+        Collections.reverse(Deposit.lists());
         for (TransactionRecord transactionRecord : Deposit.lists()) {
             System.out.println(transactionRecord);
         }
@@ -285,7 +290,9 @@ public class CLI_Application {
 
     public static void login() {
         System.out.println("""
-                                    ======== Welcome to Bank Of America ========
+                
+                
+                              ======== Welcome to Bank Of America ========
 
                 1) sign in
                 2) new customer? sign up
@@ -316,17 +323,18 @@ public class CLI_Application {
     }
 
     public static void signUp(){
+        System.out.println("Select an option:");
         System.out.println("Please enter a user name");
         String userName = scanner.nextLine();
         System.out.println("Please enter a password");
-        int password = scanner.nextInt();
-        scanner.nextLine();
+        String password = scanner.nextLine();
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter("signInFile.csv", true))) {
             writer.write(userName + "," + password);
             writer.newLine();
+            System.out.println("✅ Sign-up successful! Welcome, " + userName);
         } catch (IOException e) {
-            System.out.println("file not found");
+            System.out.println("Error saving user info.");
         }
     }
 
@@ -357,19 +365,19 @@ public class CLI_Application {
             System.out.println("Please enter a user name");
             String userName = scanner.nextLine();
             System.out.println("Please enter a password");
-            int password = scanner.nextInt();
-            scanner.nextLine();
+            String password = scanner.nextLine();
 
             List<SignIn> signIns = signUpFile();
             for (SignIn signIn : signIns) {
                 if (signIn.getUserName().trim().equals(userName) && signIn.getPassword().trim().equals(password)) {
                     homeScreen();
                     input = true;
-                } else {
-                    System.out.println("Incorrect user name or password");
                 }
             }
 
+            if (!input){
+                System.out.println("Incorrect user name or password");
+            }
         }
     }
 

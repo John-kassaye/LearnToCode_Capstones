@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
@@ -31,6 +32,11 @@ public class Reports {
     public static void monthToDate(){
 
         boolean input = false;
+        System.out.println("""
+                        ====== This month transactions ======
+                        -------------------------------------
+                        """);
+        Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth() &&
                     transactionRecord.getDate().getYear() == LocalDate.now().getYear()){
@@ -46,6 +52,11 @@ public class Reports {
     public static void previousMonth(){
 
         boolean input = false;
+        System.out.println("""
+            ====== Previous Month's Transactions ======
+            -------------------------------------------
+            """);
+        Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()){
             if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth().minus(1) &&
                     transactionRecord.getDate().getYear() == LocalDate.now().getYear()){
@@ -61,6 +72,7 @@ public class Reports {
     public static void yearToDate(){
 
         boolean input = false;
+        Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
                 System.out.println(transactionRecord);
@@ -75,6 +87,7 @@ public class Reports {
     public static void previousYear(){
 
         boolean input = false;
+        Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getDate().getYear() == LocalDate.now().minusYears(1).getYear()) {
                 System.out.println(transactionRecord);
@@ -91,6 +104,7 @@ public class Reports {
         String vendor = scanner.nextLine();
 
         boolean input = false;
+        Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transactionRecord);
@@ -108,6 +122,7 @@ public class Reports {
         List<TransactionRecord> transactionRecords;
         transactionRecords = Deposit.lists();
 
+        Collections.reverse(lists());
         for (int i=0; i<lists().size();i++){
             result+= transactionRecords.get(i).getAmount();
         }

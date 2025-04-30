@@ -3,10 +3,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.InputMismatchException;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Deposit {
     static Scanner scanner = new Scanner(System.in);
@@ -29,7 +26,7 @@ public class Deposit {
                 date2 = LocalDate.parse(date, dateTimeFormatter);
                 input2 = true;
             } catch (DateTimeParseException e) {
-                System.out.println("Error: Invalid date format. Please use yyyy-MM-dd for date.");
+                System.out.println("Error: Invalid date format. Please use yyyy-M-d for date.");
             }
             while (!input3) try {
                 System.out.println("Please enter the time");
@@ -57,7 +54,7 @@ public class Deposit {
             writingFile(transactionRecord);
             input = true;
             System.out.println("✅ Your deposit has been successfully recorded ");
-            System.out.println("You deposited $" + amount + "on" + date2 + time2 + "for" + description + "at" + vendor);
+            System.out.println("You deposited " + amount + " on " + date2 + " " + time2 + " for " + description + " at " + vendor);
         }
 
     }
@@ -80,6 +77,7 @@ public class Deposit {
 
 
         boolean input = false;
+        Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getAmount() > 0) {
                 System.out.println(transactionRecord);
