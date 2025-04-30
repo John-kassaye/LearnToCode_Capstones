@@ -1,4 +1,6 @@
+import java.io.*;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class CLI_Application {
@@ -7,8 +9,6 @@ public class CLI_Application {
     public static void main(String[] args) {
 
         login();
-        homeScreen();
-
     }
 
     public static void homeScreen() {
@@ -282,23 +282,48 @@ public class CLI_Application {
         }
     }
 
-    public static boolean login() {
+    public static void login() {
         boolean input = false;
         while (!input) {
-            System.out.println("User name");
+            System.out.println("""
+                                        ======== Welcome to Bank Of America ========
+
+                    """);
+            System.out.println("User name:");
+            System.out.println("Password:");
             String name = scanner.nextLine();
-            System.out.println("Password");
             int password = scanner.nextInt();
+            scanner.nextLine();
 
             if (name.trim().equals("Year up") && password == 1234) {
                 input = true;
             } else {
                 System.out.println("Incorrect username and password");
                 input = false;
+                login();
             }
         }
-        return input;
+
+        if (input == true){
+            homeScreen();
+        }
     }
+
+    public static void signUp(){
+        System.out.println("Please enter a user name");
+        String userName = scanner.nextLine();
+        System.out.println("Please enter a password");
+        int password = scanner.nextInt();
+        scanner.nextLine();
+
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("signInFile.csv", true))) {
+            writer.write(userName + "," + password);
+            writer.newLine();
+        } catch (IOException e) {
+            System.out.println("file not found");
+        }
+    }
+
 }
 
 
