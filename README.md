@@ -5,18 +5,19 @@ This is a simple command-line based ledger system for managing deposits, payment
 
 ## 📌 Features
 <Details>
-<Summary> Click here to seee Login System </Summary>
-🔐 **Login System (New!)**
+<Summary> 🔐 Login System (New!) </Summary>
+<br>
+
 - **Sign In** – Existing users can log in using their credentials.
 - **Sign Up** – New users can create an account.
-[Login image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Login%20Image.png)
+
+[Login Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Login_Image.png)
 
 </details>
 
 <Details>
-<Summary> CLick to see Home Screen </Summary>
+<Summary> 🏠 Home Screen </Summary>
 <br>
- 🏠 Home Screen
 
 The home screen provides the user with the following options. The application will continue running until the user chooses to exit.
 
@@ -25,12 +26,13 @@ The home screen provides the user with the following options. The application wi
 - `L) Ledger` – Display the ledger screen.
 - `X) Exit` – Exit the application.
 
+[Home_Screen Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Home_Screen.png)
+
 </Details>
 
 <Details>
-<Summary> Click here to see Ledger Screen </Summary>
+<Summary> 📒 Ledger Screen </Summary>
 <br>
- 📒 Ledger Screen
  
 The ledger displays entries with the most recent shown first.<br>
 
@@ -40,11 +42,11 @@ The ledger displays entries with the most recent shown first.<br>
 - `R) Reports` – Open the reports screen.
 - `H) Home` – Return to the home screen.
 
+[Ledger_Screen](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Ledger_Screen.png)
 </Details>
 
-<Details><Summary> Click here to see Reports</Summary>
+<Details><Summary> 📊 Reports</Summary>
 <br>
- 📊 Reports
 
 Users can run predefined or custom reports.
 
@@ -61,12 +63,14 @@ Users can run predefined or custom reports.
   - Amount
 - `7) Summary Balance` – Displays the total Deposit, Payment, and Net balance of the account.
 - `0) Back` – Return to the Ledger menu.
+
+[Reports_Screen](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Reports_Screen.png)
 </Details>
 
 <Details> 
-<Summary> Click here to see the Data Storage </Summary>
+<Summary>  💾 Data Storage </Summary>
 <br>
- 💾 Data Storage
+
 
 - All transactions are saved in a CSV file.
 - Each entry includes:
