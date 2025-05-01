@@ -42,7 +42,7 @@ The ledger displays entries with the most recent shown first.<br>
 - `R) Reports` – Open the reports screen.
 - `H) Home` – Return to the home screen.
 
-[Ledger_Screen_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Ledger_Screen.png)
+[Ledger_Screen_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Ledger%20Menu.png)
 </Details>
 
 <Details><Summary> 📊 Reports</Summary>
@@ -63,8 +63,9 @@ Users can run predefined or custom reports.
   - Amount
 - `7) Summary Balance` – Displays the total Deposit, Payment, and Net balance of the account.
 - `0) Back` – Return to the Ledger menu.
+- `9) Exit`
 
-[Reports_Screen_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Reports_Screen.png)
+[Reports_Screen_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Reports%20Menu.png)
 </Details>
 
 <Details> 
