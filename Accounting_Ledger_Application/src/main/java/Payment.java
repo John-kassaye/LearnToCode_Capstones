@@ -1,6 +1,7 @@
 import java.io.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Payment {
@@ -11,15 +12,18 @@ public class Payment {
         boolean input2 = false;
         while (!input) {
             LocalDate date = LocalDate.now();
-            LocalTime time = LocalTime.now();
+            LocalTime now = LocalTime.now();
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String formatedTime = now.format(dateTimeFormatter);
+            LocalTime time = LocalTime.parse(formatedTime);
             float amount = 0;
 
-            System.out.println("Please enter the description");
+            System.out.println("Please enter the description:");
             String description = scanner.nextLine();
-            System.out.println("Please enter the vendor");
+            System.out.println("Please enter the vendor:");
             String vendor = scanner.nextLine();
             while (!input2) try {
-                System.out.println("Please enter the amount");
+                System.out.println("Please enter the amount:");
                 amount = scanner.nextFloat();
                 input2 = true;
                 scanner.nextLine();
@@ -30,8 +34,8 @@ public class Payment {
             TransactionRecord transactionRecord = new TransactionRecord(date, time, description, vendor, -amount);
             writingFile(transactionRecord);
             input = true;
+            System.out.println();
             System.out.println("✅ Your payment has been successfully recorded!");
-            System.out.println("______________________________________________");
             System.out.println("You paid " + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
         }
     }

@@ -1,16 +1,109 @@
 import java.io.*;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 import java.util.Collections;
-import java.util.List;
 
 public class CLI_Application {
     static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
 
-        ledger();
+        login();
+    }
+
+    public static void login() {
+        boolean input = false;
+
+        while (!input){System.out.println("""
+                
+                
+                              ======== Welcome to Bank Of America ========
+
+                1) sign in
+                2) new customer? sign up
+                """);
+            String user = scanner.nextLine();
+
+            switch (user) {
+                case "1":
+                    signInCheck();
+                    input = true;
+                    break;
+                case "2":
+                    signUp();
+                    System.out.println("""
+                        
+                        0) Back
+                        X) Exit
+                        """);
+                    String choice = scanner.nextLine();
+                    if (choice.trim().equalsIgnoreCase("0")) {
+                        login();
+                    } else {
+                        System.exit(0);
+                    }
+                    input = true;
+                    break;
+                default:
+                    System.out.println("Invalid input.");
+            }
+        }
+    }
+
+    public static void signUp() {
+
+        System.out.println("Select an option:");
+        System.out.println("Enter your first name:");
+        String firstName = scanner.nextLine();
+        System.out.println("Enter your last name:");
+        String lastName = scanner.nextLine();
+        System.out.println("Enter your Email:");
+        String Email = scanner.nextLine();
+        System.out.println("Enter a username:");
+        String userName = scanner.nextLine();
+        System.out.println("Enter a password (at least 4 characters)");
+        String password = scanner.nextLine();
+        String file = userName + ".csv";
+        if (password.length() > 3) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                writer.write(userName + "," + password);
+                writer.newLine();
+                System.out.println();
+                System.out.println("✅ Sign-up successful! Welcome, " + firstName + " " + lastName + "!");
+            } catch (IOException e) {
+                System.out.println("Error saving user info.");
+            }
+        } else {
+            System.out.println("Error: Password must be at least 4 character.");
+        }
+
+    }
+
+    public static void signInCheck() {
+
+        boolean input = false;
+        while (!input) {
+            System.out.println("Please enter a user name");
+            String userName = scanner.nextLine();
+            System.out.println("Please enter a password");
+            String password = scanner.nextLine();
+
+            String file = userName + ".csv";
+            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+                String line = bufferedReader.readLine();
+                String[] parts = line.split(",");
+                if (parts[0].trim().equals(userName) && parts[1].trim().equals(password)) {
+                    homeScreen();
+                    input = true;
+                }
+
+                if (!input) {
+                    System.out.println("Incorrect user name or password");
+                }
+            } catch (IOException e) {
+                System.out.println("Incorrect User name or password");
+
+            }
+        }
     }
 
     public static void homeScreen() {
@@ -48,37 +141,13 @@ public class CLI_Application {
                     goodByeDisplay();
                     break;
                 default:
-                    System.out.println("Invalid input");
+                    System.out.println("Invalid input.");
             }
         } while (!choice.trim().equalsIgnoreCase("x"));
     }
 
-    public static void optionDisplay() {
-        System.out.println("""
-                
-                H) Home
-                x) Exit""");
-        String choice = scanner.nextLine();
-        if (choice.trim().equalsIgnoreCase("x")) {
-            System.out.println("""
-                   
-                    Thank you for using BOA. Have a great day 🌟
-                    """);
-            System.exit(0);
-        }
-    }
-
-    public static void goodByeDisplay() {
-        System.out.println("""
-                
-                Thank you for using BOA. Have a great day 🌟
-                """);
-        System.exit(0);
-    }
-
     public static void ledger() {
         String choice;
-        boolean input = false;
         System.out.println("""
                 
                 ======== Ledger Menu ========
@@ -89,6 +158,7 @@ public class CLI_Application {
                 P) Payments
                 R) Reports
                 H) Home
+                X) Exit
                 
                 Select an option:""");
         choice = scanner.nextLine();
@@ -111,30 +181,18 @@ public class CLI_Application {
                 case "h":
                     homeScreen();
                     break;
+                case "x":
+                    goodByeDisplay();
                 default:
                     System.out.println("Invalid input, please try again.");
-                    ledger();
+                    ledger(); // I could have used a while loop here. just like I did in goBackDisplays
                     break;
             }
 
     }
 
-    public static void allEntries() {
-        System.out.println();
-        System.out.println("======== transaction history ========");
-        System.out.println();
-        System.out.println("Date | Time | Description | Vendor | Amount");
-        System.out.println("_________________________________________");
-
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
-            System.out.println(transactionRecord);
-        }
-    }
-
     public static void reports() {
-        boolean input = false;
-        while (!input) try {
+        try {
             System.out.println("""
                    
                     ======== Reports Menu ========
@@ -148,6 +206,7 @@ public class CLI_Application {
                     6) Custom Search
                     7) Balance Summary
                     0) Back
+                    9) Exit
                     
                     Select an option:""");
             int choice = scanner.nextInt();
@@ -173,18 +232,65 @@ public class CLI_Application {
                     Reports.searchByVendor();
                     goBackReports();
                     break;
+                case 6:
+                    Reports.customSearch();
+                    goBackReports();
+                    break;
                 case 7:
-                    Reports.balance();
+                    Reports.balanceSummary();
                     goBackReports();
                 case 0:
                     ledger();
-                    input = true;
                     break;
+                case 9:
+                    goodByeDisplay();
+                default:
+                    System.out.println("Invalid Input.");
+                    reports();
 
             }
         } catch (InputMismatchException e) {
-            System.out.println("Please enter a number");
+            System.out.println("Please enter a number:");
+            reports();  // I could have used a while loop here. just like I did in goBackDisplays.
             scanner.nextLine();
+        }
+    }
+
+    public static void allEntries() {
+        System.out.println();
+        System.out.println("======== transaction history ========");
+        System.out.println();
+        System.out.println("Date | Time | Description | Vendor | Amount");
+        System.out.println("-------------------------------------------");
+
+        Collections.reverse(Deposit.lists());
+        for (TransactionRecord transactionRecord : Deposit.lists()) {
+            System.out.println(transactionRecord);
+        }
+    }
+
+    public static void optionDisplay() {
+        boolean input = false;
+        while (!input) {System.out.println("""
+                
+                H) Home
+                x) Exit""");
+            String choice = scanner.nextLine();
+
+            if (choice.trim().equalsIgnoreCase("h")){
+                homeScreen();
+                input = true;
+            }
+            else if (choice.trim().equalsIgnoreCase("x")) {
+                System.out.println("""
+                    
+                    Thank you for using BOA. Have a great day. 🌟
+                    """);
+                System.exit(0);
+            }
+            else {
+                System.out.println("Invalid input.");
+            }
         }
     }
 
@@ -193,6 +299,7 @@ public class CLI_Application {
         while (!input) {
             System.out.println("""
                     
+                    h) Home
                     0) Back
                     X) Exit
                     """);
@@ -200,7 +307,11 @@ public class CLI_Application {
             if (choice.trim().equalsIgnoreCase("0")) {
                 ledger();
                 input = true;
-            } else if (choice.trim().equalsIgnoreCase("x")) {
+            } else if (choice.trim().equalsIgnoreCase("H")){
+                homeScreen();
+                input = true;
+            }
+            else if (choice.trim().equalsIgnoreCase("x")) {
                 System.out.println("""
                         
                         Thank you for using the CLI App!!
@@ -217,6 +328,7 @@ public class CLI_Application {
         boolean input1 = false;
         while (!input1) {System.out.println("""
                     
+                    H) Home
                     0) Back
                     X) Exit
                     """);
@@ -224,167 +336,29 @@ public class CLI_Application {
                    if (choice2.trim().equalsIgnoreCase("0")) {
                        reports();
                        input1 = true;
-                   } else if (choice2.trim().equalsIgnoreCase("x")) {
+                   } else if (choice2.trim().equalsIgnoreCase("H")) {
+                       homeScreen();
+                       input1 = true;
+                   }
+                       if (choice2.trim().equalsIgnoreCase("x")) {
                        System.out.println("""
                                
-                               Thank you for using the BOA App!!
+                               Thank you for using the BOA App. 🌟
                                """);
                        System.exit(0);
                        input1 = true;
                    } else {
-                       System.out.println("Invalid response");
+                       System.out.println("Invalid response.");
                    }
         }
     }
 
-    public static void startDate() {
-        System.out.println("Start Date\": The beginning date for the search.(yyyy-MM-dd)");
-        String date = scanner.nextLine();
-        LocalDate userDate = LocalDate.parse(date);
-
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
-            if (userDate.isAfter(transactionRecord.getDate())) {
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void endDate(){
-        System.out.println("End Date: The ending date for the search.(yyyy-MM-dd)");
-        String date = scanner.nextLine();
-        LocalDate userDate = LocalDate.parse(date);
-
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
-            if (userDate.isAfter(transactionRecord.getDate())) {
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void description(){
-        System.out.println("Enter the description for the search");
-        String description = scanner.nextLine();
-
-        for (TransactionRecord transactionRecord : Deposit.lists()){
-            if (transactionRecord.getDescription().contains(description)){
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void vendor(){
-        System.out.println("Enter the vendor name for the search");
-        String vendor = scanner.nextLine();
-
-        for (TransactionRecord transactionRecord : Deposit.lists()){
-            if (transactionRecord.getVendor().contains(vendor)){
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void amount(){
-        System.out.println("Enter the amount for the search");
-        float amount = scanner.nextFloat();
-
-        for (TransactionRecord transactionRecord : Deposit.lists()){
-            if (transactionRecord.getAmount()==amount){
-                System.out.println(transactionRecord);
-            }
-        }
-    }
-
-    public static void login() {
+    public static void goodByeDisplay() {
         System.out.println("""
                 
-                
-                              ======== Welcome to Bank Of America ========
-
-                1) sign in
-                2) new customer? sign up
+                Thank you for using BOA. Have a great day. 🌟
                 """);
-        String user = scanner.nextLine();
-
-        switch (user) {
-            case "1":
-                signInCheck();
-                break;
-            case "2":
-                signUp();
-                System.out.println("""
-                        0) Back
-                        X) Exit
-                        """);
-                String choice = scanner.nextLine();
-                if (choice.trim().equalsIgnoreCase("0")) {
-                    login();
-                } else {
-                    System.exit(0);
-                }
-                break;
-            default:
-                System.out.println("Invalid input");
-
-        }
-    }
-
-    public static void signUp(){
-        System.out.println("Select an option:");
-        System.out.println("Please enter a user name");
-        String userName = scanner.nextLine();
-        System.out.println("Please enter a password");
-        String password = scanner.nextLine();
-
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter("signInFile.csv", true))) {
-            writer.write(userName + "," + password);
-            writer.newLine();
-            System.out.println("✅ Sign-up successful! Welcome, " + userName);
-        } catch (IOException e) {
-            System.out.println("Error saving user info.");
-        }
-    }
-
-    public static List<SignIn> signUpFile(){
-        List<SignIn> signUp = new ArrayList<>();
-        try(BufferedReader bufferedReader = new BufferedReader(new FileReader("signInFile.csv"))) {
-
-            String line;
-            while ((line = bufferedReader.readLine()) != null){
-                String[] parts = line.split(",");
-                String userName = parts[0];
-                String password = parts[1];
-                SignIn signIn = new SignIn(userName,password);
-                signUp.add(signIn);
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("File not found");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return signUp;
-    }
-
-    public static void signInCheck() {
-
-        boolean input = false;
-        while (!input) {
-            System.out.println("Please enter a user name");
-            String userName = scanner.nextLine();
-            System.out.println("Please enter a password");
-            String password = scanner.nextLine();
-
-            List<SignIn> signIns = signUpFile();
-            for (SignIn signIn : signIns) {
-                if (signIn.getUserName().trim().equals(userName) && signIn.getPassword().trim().equals(password)) {
-                    homeScreen();
-                    input = true;
-                }
-            }
-
-            if (!input){
-                System.out.println("Incorrect user name or password");
-            }
-        }
+        System.exit(0);
     }
 
 }
