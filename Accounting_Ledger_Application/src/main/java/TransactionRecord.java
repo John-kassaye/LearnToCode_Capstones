@@ -6,10 +6,10 @@ public class TransactionRecord {
     private LocalTime time;
     private String description;
     private String vendor;
-    private float amount;
+    private double amount;
 
 
-    public TransactionRecord(LocalDate date, LocalTime time, String description, String vendor, float amount) {
+    public TransactionRecord(LocalDate date, LocalTime time, String description, String vendor, double amount) {
         this.date = date;
         this.time = time;
         this.description = description;
@@ -33,7 +33,7 @@ public class TransactionRecord {
         return vendor;
     }
 
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 

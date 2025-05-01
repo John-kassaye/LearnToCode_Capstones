@@ -6,6 +6,7 @@ import java.util.*;
 
 public class Payment {
     static Scanner scanner = new Scanner(System.in);
+
     public static void addPayment() {
 
         boolean input = false;
@@ -13,40 +14,41 @@ public class Payment {
         while (!input) {
             LocalDate date = LocalDate.now();
             LocalTime now = LocalTime.now();
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
             String formatedTime = now.format(dateTimeFormatter);
             LocalTime time = LocalTime.parse(formatedTime);
-            float amount = 0;
+            String amount = "";
+            double amount1 = 0;
 
-            System.out.println("Please enter the description:");
+            System.out.println();
+            System.out.println("*** Make Payment ***");
+            System.out.println();
+            System.out.println("Add a description:");
             String description = scanner.nextLine();
             System.out.println("Please enter the vendor:");
             String vendor = scanner.nextLine();
-            while (!input2) try {
-                System.out.println("Please enter the amount:");
-                amount = scanner.nextFloat();
-                input2 = true;
-                scanner.nextLine();
-            } catch (InputMismatchException e) {
-                System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
-                scanner.nextLine();
+            while (!input2) {
+                try {
+                    System.out.println("Please enter the amount:");
+                    amount = scanner.nextLine();
+                    amount1 = Double.parseDouble(amount);
+                    if (amount1 <= 0) {
+                        System.out.println("Amount must be positive");
+                    } else {
+                        input2 = true;
+                    }
+
+                } catch (NumberFormatException e) {
+                    System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+                }
             }
-            TransactionRecord transactionRecord = new TransactionRecord(date, time, description, vendor, -amount);
-            writingFile(transactionRecord);
+
+            TransactionRecord transactionRecord = new TransactionRecord(date, time, description, vendor, -amount1);
+            Deposit.writingFile(transactionRecord);
             input = true;
             System.out.println();
             System.out.println("✅ Your payment has been successfully recorded!");
             System.out.println("You paid " + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
-        }
-    }
-
-    public static void writingFile(TransactionRecord transactionRecord) {
-        File file = new File("transactions.csv");
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-            writer.write(String.valueOf(transactionRecord));
-            writer.newLine();
-        } catch (IOException e) {
-            System.out.println("File not found");
         }
     }
 
@@ -63,7 +65,7 @@ public class Payment {
                 input = true;
             }
         }
-        if (!input){
+        if (!input) {
             System.out.println("No payments were found");
         }
     }

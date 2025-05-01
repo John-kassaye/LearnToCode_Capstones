@@ -16,10 +16,11 @@ public class CLI_Application {
         while (!input){System.out.println("""
                 
                 
-                              ======== Welcome to Bank Of America ========
+                           ======== Welcome to Bank Of America ========
 
                 1) sign in
                 2) new customer? sign up
+                X) Exit
                 """);
             String user = scanner.nextLine();
 
@@ -43,6 +44,8 @@ public class CLI_Application {
                     }
                     input = true;
                     break;
+                case "3":
+                    goodByeDisplay();
                 default:
                     System.out.println("Invalid input.");
             }
@@ -51,47 +54,61 @@ public class CLI_Application {
 
     public static void signUp() {
 
+        boolean input = false;
+        boolean input1 = false;
+        String[] parts = new String[0];
+        String email = "";
+
         System.out.println("Select an option:");
         System.out.println("Enter your first name:");
         String firstName = scanner.nextLine();
         System.out.println("Enter your last name:");
         String lastName = scanner.nextLine();
-        System.out.println("Enter your Email:");
-        String Email = scanner.nextLine();
-        System.out.println("Enter a username:");
-        String userName = scanner.nextLine();
-        System.out.println("Enter a password (at least 4 characters)");
-        String password = scanner.nextLine();
-        String file = userName + ".csv";
-        if (password.length() > 3) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
-                writer.write(userName + "," + password);
-                writer.newLine();
-                System.out.println();
-                System.out.println("✅ Sign-up successful! Welcome, " + firstName + " " + lastName + "!");
-            } catch (IOException e) {
-                System.out.println("Error saving user info.");
-            }
-        } else {
-            System.out.println("Error: Password must be at least 4 character.");
+        while (!input){
+            System.out.println("Enter your Email:");
+         email = scanner.nextLine();
+        parts = email.trim().split("[@.]");
+        if (parts.length > 2){
+        input = true;}
+        else {
+            System.out.println("Invalid email address");
         }
-
+        }
+        while (!input1) {
+            System.out.println("Enter a password (at least 4 characters)");
+            String password = scanner.nextLine();
+            String file = parts[0] + ".csv";
+            if (password.length() > 3) {
+                try (BufferedWriter writer = new BufferedWriter(new FileWriter(file, true))) {
+                    writer.write(email + "," + password);
+                    writer.newLine();
+                    System.out.println();
+                    System.out.println("✅ Sign-up successful! Welcome, " + firstName + " " + lastName + "!");
+                    input1 = true;
+                } catch (IOException e) {
+                    System.out.println("Error saving user info.");
+                }
+            } else {
+                System.out.println("Error: Password must be at least 4 character.");
+            }
+        }
     }
 
     public static void signInCheck() {
 
         boolean input = false;
         while (!input) {
-            System.out.println("Please enter a user name");
-            String userName = scanner.nextLine();
-            System.out.println("Please enter a password");
+            System.out.println("Enter your Email");
+            String email = scanner.nextLine();
+            System.out.println("Enter your password");
             String password = scanner.nextLine();
+            String[] parts = email.trim().split("[@.]");
 
-            String file = userName + ".csv";
+            String file = parts[0] + ".csv";
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line = bufferedReader.readLine();
-                String[] parts = line.split(",");
-                if (parts[0].trim().equals(userName) && parts[1].trim().equals(password)) {
+                String[] part = line.split(",");
+                if (part[0].trim().equalsIgnoreCase(email) && part[1].trim().equals(password)) {
                     homeScreen();
                     input = true;
                 }
@@ -141,7 +158,7 @@ public class CLI_Application {
                     goodByeDisplay();
                     break;
                 default:
-                    System.out.println("Invalid input.");
+                    invalidInput();
             }
         } while (!choice.trim().equalsIgnoreCase("x"));
     }
@@ -149,6 +166,8 @@ public class CLI_Application {
     public static void ledger() {
         String choice;
         System.out.println("""
+                
+                *** opening Ledger Menu ***
                 
                 ======== Ledger Menu ========
                 -----------------------------
@@ -184,7 +203,7 @@ public class CLI_Application {
                 case "x":
                     goodByeDisplay();
                 default:
-                    System.out.println("Invalid input, please try again.");
+                    invalidInput();
                     ledger(); // I could have used a while loop here. just like I did in goBackDisplays
                     break;
             }
@@ -194,6 +213,8 @@ public class CLI_Application {
     public static void reports() {
         try {
             System.out.println("""
+                   
+                    *** opening Report Menu ***
                    
                     ======== Reports Menu ========
                     ------------------------------
@@ -245,7 +266,7 @@ public class CLI_Application {
                 case 9:
                     goodByeDisplay();
                 default:
-                    System.out.println("Invalid Input.");
+                    invalidInput();
                     reports();
 
             }
@@ -263,8 +284,9 @@ public class CLI_Application {
         System.out.println("Date | Time | Description | Vendor | Amount");
         System.out.println("-------------------------------------------");
 
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
+        List<TransactionRecord> list = Deposit.lists();
+        Collections.reverse(list);
+        for (TransactionRecord transactionRecord : list){
             System.out.println(transactionRecord);
         }
     }
@@ -289,7 +311,7 @@ public class CLI_Application {
                 System.exit(0);
             }
             else {
-                System.out.println("Invalid input.");
+                invalidInput();
             }
         }
     }
@@ -319,7 +341,7 @@ public class CLI_Application {
                 System.exit(0);
                 input = true;
             } else {
-                System.out.println("Invalid input. please try again");
+                invalidInput();
             }
         }
     }
@@ -348,8 +370,8 @@ public class CLI_Application {
                        System.exit(0);
                        input1 = true;
                    } else {
-                       System.out.println("Invalid response.");
-                   }
+                           invalidInput();
+                       }
         }
     }
 
@@ -359,6 +381,11 @@ public class CLI_Application {
                 Thank you for using BOA. Have a great day. 🌟
                 """);
         System.exit(0);
+    }
+
+    public static void invalidInput(){
+        // created to avoid writing same invalid input message in multiple methods
+        System.out.println("Invalid input. Please try again");
     }
 
 }

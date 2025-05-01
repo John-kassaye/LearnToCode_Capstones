@@ -6,96 +6,106 @@ import java.util.Scanner;
 public class Reports {
     static Scanner scanner = new Scanner(System.in);
 
-    public static void monthToDate(){
+    public static void monthToDate() {
 
         boolean input = false;
         System.out.println("""
-                        ====== This month transactions ======
-                        -------------------------------------
-                        """);
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
+                
+                ====== This month transactions ======
+                -------------------------------------
+                """);
+        List<TransactionRecord> list = Deposit.lists();
+        Collections.reverse(list);
+        for (TransactionRecord transactionRecord : list) {
             if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth() &&
-                    transactionRecord.getDate().getYear() == LocalDate.now().getYear()){
+                    transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
                 System.out.println(transactionRecord);
                 input = true;
             }
         }
-        if (!input){
+        if (!input) {
             System.out.println("No transaction were for this month-to-date");
         }
     }
 
-    public static void previousMonth(){
+    public static void previousMonth() {
 
         boolean input = false;
         System.out.println("""
-            ====== Previous Month's Transactions ======
-            -------------------------------------------
-            """);
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()){
+                
+                ====== Previous Month's Transactions ======
+                -------------------------------------------
+                """);
+        List<TransactionRecord> list = Deposit.lists();
+        Collections.reverse(list);
+        for (TransactionRecord transactionRecord : list) {
             if (transactionRecord.getDate().getMonth() == LocalDate.now().getMonth().minus(1) &&
-                    transactionRecord.getDate().getYear() == LocalDate.now().getYear()){
+                    transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
                 System.out.println(transactionRecord);
                 input = true;
             }
         }
-        if (!input){
+        if (!input) {
             System.out.println("No transactions were found for the previous month ");
         }
     }
 
-    public static void yearToDate(){
+    public static void yearToDate() {
 
         boolean input = false;
         System.out.println("""
-            ====== Year-to-Date Transaction Summary ======
-            -------------------------------------------
-            """);
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
+                
+                ====== Year-to-Date Transaction Summary ======
+                -------------------------------------------
+                """);
+        List<TransactionRecord> list = Deposit.lists();
+        Collections.reverse(list);
+        for (TransactionRecord transactionRecord : list) {
             if (transactionRecord.getDate().getYear() == LocalDate.now().getYear()) {
                 System.out.println(transactionRecord);
                 input = true;
             }
         }
-        if (!input){
+        if (!input) {
             System.out.println("No transactions were found for this year-to-date");
         }
     }
 
-    public static void previousYear(){
+    public static void previousYear() {
 
         boolean input = false;
         System.out.println("""
-            ====== Previous Year Transaction Summary ======
-            -------------------------------------------
-            """);
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
+                
+                ====== Previous Year Transaction Summary ======
+                -------------------------------------------
+                """);
+        List<TransactionRecord> list = Deposit.lists();
+        Collections.reverse(list);
+        for (TransactionRecord transactionRecord : list) {
             if (transactionRecord.getDate().getYear() == LocalDate.now().minusYears(1).getYear()) {
                 System.out.println(transactionRecord);
                 input = true;
             }
         }
-        if (!input){
+        if (!input) {
             System.out.println("No transaction were found for the previous year");
         }
     }
 
-    public static void searchByVendor(){
+    public static void searchByVendor() {
 
         System.out.println("""
-            ====== Search By Vendor Name ======
-            -------------------------------------------
-            """);
+                
+                ====== Search By Vendor Name ======
+                -------------------------------------------
+                """);
         System.out.println("Please enter the vendor name");
         String vendor = scanner.nextLine();
 
         boolean input = false;
-        Collections.reverse(Deposit.lists());
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
+        List<TransactionRecord> list = Deposit.lists();
+        Collections.reverse(list);
+        for (TransactionRecord transactionRecord : list) {
             if (transactionRecord.getVendor().equalsIgnoreCase(vendor)) {
                 System.out.println(transactionRecord);
                 input = true;
@@ -111,23 +121,25 @@ public class Reports {
         boolean input = false;
 
         System.out.println("""
-            ====== Custom Search ======
-            ---------------------------
-            """);
-        System.out.println("Enter the start date below");
+                
+                ====== Custom Search ======
+                ---------------------------
+                """);
+        System.out.println("Enter the start date below:");
         String startDate = scanner.nextLine();
         LocalDate localDate = LocalDate.parse(startDate);
-        System.out.println("Enter the end date below");
+        System.out.println("Enter the end date below:");
         String endDate = scanner.nextLine();
         LocalDate localDate1 = LocalDate.parse(endDate);
-        System.out.println("Enter the description");
+        System.out.println("Enter the description:");
         String description = scanner.nextLine();
-        System.out.println("Enter the vendor name");
+        System.out.println("Enter the vendor name:");
         String vendor = scanner.nextLine();
-        System.out.println("Enter the amount");
-        Float amount = scanner.nextFloat();
+        System.out.println("Enter the amount:");
+        String amount = scanner.nextLine();
 
-        for (TransactionRecord transactionRecord : Deposit.lists()) {
+        List<TransactionRecord> list = Deposit.lists();
+        for (TransactionRecord transactionRecord : list) {
             input = true;
 
             if (!startDate.isEmpty() && transactionRecord.getDate().isBefore(localDate)) {
@@ -142,7 +154,7 @@ public class Reports {
             if (!vendor.isEmpty() && !transactionRecord.getVendor().contains(vendor)) {
                 input = false;
             }
-            if (amount != null && !(transactionRecord.getAmount() == amount)) {
+            if (!amount.isEmpty() && transactionRecord.getAmount() != transactionRecord.getAmount()){
                 input = false;
             }
 
@@ -152,16 +164,14 @@ public class Reports {
         }
     }
 
-    public static float balance(){
+    public static double balance() {
 
-
-        float result = 0;
+        double result = 0;
         List<TransactionRecord> transactionRecords;
         transactionRecords = Deposit.lists();
 
-        Collections.reverse(Deposit.lists());
-        for (int i=0; i<Deposit.lists().size();i++){
-            result+= transactionRecords.get(i).getAmount();
+        for (int i = 0; i < Deposit.lists().size(); i++) {
+            result += transactionRecords.get(i).getAmount();
         }
 
         return result;
@@ -170,12 +180,13 @@ public class Reports {
     public static void balanceSummary() {
 
         System.out.println("""
-            ====== Balance Summary ======
-            ------------------------------
-            """);
+                
+                ====== Balance Summary ======
+                ------------------------------
+                """);
 
-        float totalDeposit = 0;
-        float totalPayment = 0;
+        double totalDeposit = 0;
+        double totalPayment = 0;
 
         for (TransactionRecord transactionRecord : Deposit.lists()) {
             if (transactionRecord.getAmount() > 0) {
@@ -184,9 +195,9 @@ public class Reports {
                 totalPayment += transactionRecord.getAmount();
             }
         }
-        System.out.println("Total deposit:" + totalDeposit );
-        System.out.println("Total payment:" + totalPayment );
-        System.out.printf("Current balance: %.2f" , balance());
+        System.out.println("Total deposit:" + totalDeposit);
+        System.out.println("Total payment:" + totalPayment);
+        System.out.printf("Current balance: %.2f", balance());
 
     }
 }
