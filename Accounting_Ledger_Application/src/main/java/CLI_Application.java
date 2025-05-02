@@ -16,7 +16,6 @@ public class CLI_Application {
         while (!input) {
             System.out.println("""
                     
-                    
                               ======== Welcome to Smart Ledger App ========
                     
                     1) sign in
@@ -32,17 +31,7 @@ public class CLI_Application {
                     break;
                 case "2":
                     signUp();
-                    System.out.println("""
-                            
-                            0) Back
-                            X) Exit
-                            """);
-                    String choice = scanner.nextLine();
-                    if (choice.trim().equalsIgnoreCase("0")) {
-                        login();
-                    } else {
-                        System.exit(0);
-                    }
+                    loginOption();
                     input = true;
                     break;
                 case "x":
@@ -122,7 +111,7 @@ public class CLI_Application {
 
             // Split the email into parts
             String[] parts = email.trim().split("[@.]");
-            String file = parts[0] + ".csv"; // Create the file name based on the email username
+            String file = parts[0] + ".csv";
 
             try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
                 String line = bufferedReader.readLine();
@@ -337,6 +326,20 @@ public class CLI_Application {
             } else {
                 invalidInput();
             }
+        }
+    }
+
+    public static void loginOption (){
+        System.out.println("""
+                            
+                            0) Back
+                            X) Exit
+                            """);
+        String choice = scanner.nextLine();
+        if (choice.trim().equalsIgnoreCase("0")) {
+            login();
+        } else {
+            System.exit(0);
         }
     }
 

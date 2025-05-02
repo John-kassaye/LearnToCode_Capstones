@@ -275,9 +275,10 @@ public class Reports {
             }
         }
 
-        System.out.println("Total deposit:" + totalDeposit);
-        System.out.println("Total payment:" + totalPayment);
-        System.out.printf("Current balance: %.2f", balance());
+        System.out.println("Total deposit: $" + totalDeposit);
+        System.out.println("Total payment: $" + totalPayment);
+        System.out.printf("Current balance: %.2f $", balance());
 
     }
+
 }

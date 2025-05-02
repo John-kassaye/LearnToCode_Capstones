@@ -17,8 +17,8 @@ public class Payment {
             LocalDate date = LocalDate.now();
             LocalTime now = LocalTime.now();
 
-            // Format the time as HH:mm
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            // Format the time as HH:mm:ss
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             String formatedTime = now.format(dateTimeFormatter);
             LocalTime time = LocalTime.parse(formatedTime);
 
@@ -28,6 +28,7 @@ public class Payment {
             // Prompt user to enter payment details
             System.out.println();
             System.out.println("*** Make Payment ***");
+            System.out.println( "Current balance: " + String.format(" $%.2f ", Reports.balance()));
             System.out.println();
 
             System.out.println("Add a description:");
@@ -42,7 +43,7 @@ public class Payment {
                     amount = scanner.nextLine();
                     amount1 = Double.parseDouble(amount);
                     if (amount1 <= 0) {
-                        System.out.println("Amount must be positive");
+                        System.out.println("Error: Amount must be positive");
                     } else {
                         input2 = true; // valid input
                     }
@@ -62,7 +63,7 @@ public class Payment {
             // Show confirmation message to user
             System.out.println();
             System.out.println("✅ Your payment has been successfully recorded!");
-            System.out.println("You paid " + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
+            System.out.println("You paid $" + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
         }
     }
 

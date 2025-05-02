@@ -17,7 +17,7 @@ public class Deposit {
             LocalTime now = LocalTime.now();
 
             // Format the time to HH:mm and parse it
-            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+            DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             String formatedTime = now.format(dateTimeFormatter);
             LocalTime time = LocalTime.parse(formatedTime);
 
@@ -28,6 +28,7 @@ public class Deposit {
             // Prompt user to enter deposit details
             System.out.println();
             System.out.println("*** Add Deposit ***");
+            System.out.println( "Current balance: " + String.format(" $%.2f ", Reports.balance()));
             System.out.println();
 
             System.out.println("Add a description");
@@ -42,13 +43,13 @@ public class Deposit {
                     amount = scanner.nextLine();
                     amount1 = Double.parseDouble(amount);
                     if (amount1 <= 0) {
-                        System.out.println("Amount must be positive");
+                        System.out.println("Error: Amount must be positive");
                     } else {
                         input2 = true;   // // valid input
                     }
 
                 } catch (NumberFormatException e) {
-                    System.out.println("Error: Invalid amount entered. Please enter a numerical value.");
+                    System.out.println("Error: Invalid amount entered. Please enter a number.");
                 }
             }
 
@@ -61,7 +62,7 @@ public class Deposit {
             // Show confirmation to the user
             System.out.println();
             System.out.println("✅ Your deposit has been successfully recorded ");
-            System.out.println("You deposited " + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
+            System.out.println("You deposited $" + amount + " on " + date + " " + time + " for " + description + " at " + vendor);
         }
 
     }
@@ -85,7 +86,7 @@ public class Deposit {
 
         boolean input = false;
 
-        // Reverse the list so newest transactions come first
+        // Reverse the list so the newest transactions come first
         Collections.reverse(lists());
         for (TransactionRecord transactionRecord : lists()) {
             if (transactionRecord.getAmount() > 0) {
@@ -108,13 +109,14 @@ public class Deposit {
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
 
             while ((line = bufferedReader.readLine()) != null) {
-                // Split each line into parts using the pipe '|' character
                 String[] splitting = line.split("\\|");
 
+                String date = splitting[0].trim();
+                String time = splitting[1].trim();
                 // Parse each part
-                LocalDate localDate = LocalDate.parse(splitting[0].trim());
-                LocalTime localTime = LocalTime.parse(splitting[1].trim());
-                double amount = Float.parseFloat(splitting[4].trim());
+                LocalDate localDate = LocalDate.parse(date);
+                LocalTime localTime = LocalTime.parse(time);
+                double amount = Double.parseDouble(splitting[4]);
 
                 TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
                 transaction.add(transactionRecord);
