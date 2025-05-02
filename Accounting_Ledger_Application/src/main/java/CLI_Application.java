@@ -17,7 +17,7 @@ public class CLI_Application {
             System.out.println("""
                     
                     
-                               ======== Welcome to Bank Of America ========
+                              ======== Welcome to Smart Ledger App ========
                     
                     1) sign in
                     2) new customer? sign up
@@ -45,7 +45,7 @@ public class CLI_Application {
                     }
                     input = true;
                     break;
-                case "3":
+                case "x":
                     goodByeDisplay();
                 default:
                     System.out.println("Invalid input.");
@@ -180,7 +180,6 @@ public class CLI_Application {
                     break;
                 case "x":
                     goodByeDisplay();
-                    break;
                 default:
                     invalidInput();
 
