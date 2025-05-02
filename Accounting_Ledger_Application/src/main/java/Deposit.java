@@ -108,19 +108,6 @@ public class Deposit {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
 
-//            while ((line = bufferedReader.readLine()) != null) {
-//                String[] splitting = line.split("\\|");
-//
-//                String date = splitting[0];
-//                String time = splitting[1];
-//                // Parse each part
-//                LocalDate localDate = LocalDate.parse(date);
-//                LocalTime localTime = LocalTime.parse(time);
-//                double amount = Double.parseDouble(splitting[4]);
-//
-//                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
-//                transaction.add(transactionRecord);
-//            }
             while ((line = bufferedReader.readLine()) != null) {
                 // Skip empty lines
                 if (line.trim().isEmpty()) continue;
