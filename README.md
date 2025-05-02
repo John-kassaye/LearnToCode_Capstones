@@ -81,8 +81,8 @@ Users can run predefined or custom reports.
 </Details>
 
 <Details>
-<Summary> Interesting code </Summary>
-
+<Summary> 💻 Interesting code </Summary>
+[Code] (https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/interesting_code%20copy.png)
 </Details>
 
 ## 🛠 How to Run
