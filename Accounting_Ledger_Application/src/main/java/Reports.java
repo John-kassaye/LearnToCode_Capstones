@@ -148,7 +148,6 @@ public class Reports {
     }
 
     public static void customSearch() {
-        boolean input = false;
 
         System.out.println("""
                 
@@ -166,7 +165,6 @@ public class Reports {
 
         while (!validDate) {
             try {
-
                 System.out.println("Enter the start date below:");
                 startDate = scanner.nextLine();
                 localDate = LocalDate.parse(startDate);
@@ -209,7 +207,7 @@ public class Reports {
 
         List<TransactionRecord> list = Deposit.lists();
         for (TransactionRecord transactionRecord : list) {
-            input = true;
+            boolean input = true;
 
             // Check if the transaction's date is after the start date
             if (!startDate.isEmpty() && transactionRecord.getDate().isBefore(localDate)) {

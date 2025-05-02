@@ -120,7 +120,7 @@ public class CLI_Application {
             System.out.println("Enter your password");
             String password = scanner.nextLine();
 
-            // Split the email into parts to extract the username for the file name
+            // Split the email into parts
             String[] parts = email.trim().split("[@.]");
             String file = parts[0] + ".csv"; // Create the file name based on the email username
 
