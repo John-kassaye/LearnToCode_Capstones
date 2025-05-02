@@ -67,6 +67,12 @@ Users can run predefined or custom reports.
 [Reports_Screen_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Reports%20Menu.png)
 </Details>
 
+<details>
+<summary> 💻 Interesting code </summary>
+[Code](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/interesting_code%20copy.png)
+</details>
+
+
 <Details> 
 <Summary>  💾 Data Storage </Summary>
 <br>
@@ -78,11 +84,6 @@ Users can run predefined or custom reports.
   - Description
   - Vendor
   - Amount (positive for deposits, negative for payments)
-</Details>
-
-<Details>
-<Summary> 💻 Interesting code </Summary>
-[Code] (https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/interesting_code%20copy.png)
 </Details>
 
 ## 🛠 How to Run
