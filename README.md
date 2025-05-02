@@ -11,8 +11,7 @@ This is a simple command-line based ledger system for managing deposits, payment
 - **Sign In** – Existing users can log in using their credentials.
 - **Sign Up** – New users can create an account.
 
-[Login_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Login_Image.png)
-
+[Login_Image](https://github.com/John-kassaye/LearnToCode_Capstones/blob/main/Accounting_Ledger_Application/src/Images/Login_Screen.png)
 </details>
 
 <Details>
