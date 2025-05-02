@@ -80,6 +80,11 @@ Users can run predefined or custom reports.
   - Amount (positive for deposits, negative for payments)
 </Details>
 
+<Details>
+<Summary> Interesting code </Summary>
+
+</Details>
+
 ## 🛠 How to Run
 
 1. Clone the repository:
