@@ -108,19 +108,45 @@ public class Deposit {
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("transactions.csv"))) {
 
+//            while ((line = bufferedReader.readLine()) != null) {
+//                String[] splitting = line.split("\\|");
+//
+//                String date = splitting[0];
+//                String time = splitting[1];
+//                // Parse each part
+//                LocalDate localDate = LocalDate.parse(date);
+//                LocalTime localTime = LocalTime.parse(time);
+//                double amount = Double.parseDouble(splitting[4]);
+//
+//                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
+//                transaction.add(transactionRecord);
+//            }
             while ((line = bufferedReader.readLine()) != null) {
+                // Skip empty lines
+                if (line.trim().isEmpty()) continue;
+
                 String[] splitting = line.split("\\|");
 
-                String date = splitting[0].trim();
-                String time = splitting[1].trim();
-                // Parse each part
-                LocalDate localDate = LocalDate.parse(date);
-                LocalTime localTime = LocalTime.parse(time);
-                double amount = Double.parseDouble(splitting[4]);
+                // Ensure the line has exactly 5 parts
+                if (splitting.length != 5) {
+                    System.out.println("Skipping malformed line: " + line);
+                    continue;
+                }
 
-                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, splitting[2], splitting[3], amount);
+                // Trim parts
+                String dateStr = splitting[0].trim();
+                String timeStr = splitting[1].trim();
+                String description = splitting[2].trim();
+                String merchant = splitting[3].trim();
+                double amount = Double.parseDouble(splitting[4].trim());
+
+                LocalDate localDate = LocalDate.parse(dateStr);
+                LocalTime localTime = LocalTime.parse(timeStr);
+
+                TransactionRecord transactionRecord = new TransactionRecord(localDate, localTime, description, merchant, amount);
                 transaction.add(transactionRecord);
             }
+
         } catch (IOException e) {
             System.out.println("File not found");
         }
